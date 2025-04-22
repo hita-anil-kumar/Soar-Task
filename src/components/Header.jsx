@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FiSearch, FiMenu } from "react-icons/fi";
-import { IoIosNotificationsOutline } from "react-icons/io";
 import { fetchUserInfo } from "../api/mockApi";
 import { ReactComponent as HeaderSettingsIcon } from "../assets/icons/headerSettingsIcon.svg"; // Optional: replace with your actual settings icon SVG
 import { ReactComponent as HeaderNotificationIcon } from "../assets/icons/headerNotificationIcon.svg";

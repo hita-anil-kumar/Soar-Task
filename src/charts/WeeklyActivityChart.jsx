@@ -1,31 +1,3 @@
-// import React from 'react';
-// import { Bar } from 'react-chartjs-2';
-// import { Chart, BarElement, CategoryScale, LinearScale } from 'chart.js';
-
-// Chart.register(BarElement, CategoryScale, LinearScale);
-
-// const WeeklyActivityChart = () => {
-//   const data = {
-//     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-//     datasets: [
-//       {
-//         label: 'Deposits',
-//         backgroundColor: '#2ecc71',
-//         data: [120, 150, 180, 200, 170, 100, 90],
-//       },
-//       {
-//         label: 'Withdrawals',
-//         backgroundColor: '#e74c3c',
-//         data: [80, 70, 100, 120, 130, 60, 50],
-//       },
-//     ],
-//   };
-
-//   return <Bar data={data} />;
-// };
-
-// export default WeeklyActivityChart;
-
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
