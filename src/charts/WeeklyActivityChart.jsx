@@ -139,7 +139,6 @@ const WeeklyActivityChart = () => {
 
   return (
     <ChartWrapper>
-      <ChartTitle>Weekly Activity</ChartTitle>
       <LegendRow>
         <span className="deposit">Deposit</span>
         <span className="withdraw">Withdraw</span>
