@@ -16,24 +16,72 @@ export const fetchUserInfo = () =>
       setTimeout(() => {
         resolve([
           {
-            id: 1,
-            balance: "$5,756",
+            id: 1,          
             name: "Eddy Cusuma",
             expiry: "12/22",
             number: "3778 **** **** 1234",
+            balance: "$5,756",
             dark: true,
           },
           {
-            id: 2,
-            balance: "$5,756",
+            id: 2,           
             name: "Eddy Cusuma",
             expiry: "12/22",
             number: "3778 **** **** 1234",
+            balance: "$5,756",
+            dark: false,
+          },
+          {
+            id: 3,            
+            name: "charlie Cusuma",
+            expiry: "12/22",
+            number: "3778 **** **** 1234",
+            balance: "$5,756",
+            dark: true,
+          },
+          {
+            id: 4,            
+            name: "charlie Cusuma",
+            expiry: "12/22",
+            number: "3778 **** **** 1234",
+            balance: "$5,756",
+            dark: false,
+          },
+          {
+            id: 5,            
+            name: "charlie Cusuma",
+            expiry: "12/22",
+            number: "3778 **** **** 1234",
+            balance: "$5,756",
+            dark: true,
+          },
+          {
+            id: 6,            
+            name: "charlie Cusuma",
+            expiry: "12/22",
+            number: "3778 **** **** 1234",
+            balance: "$5,756",
             dark: false,
           },
         ]);
       }, 500)
     );
+
+    export const fetchUsers = () =>
+        new Promise((resolve) =>
+          setTimeout(() => {
+            resolve([
+                { name: "Livia Bator", role: "CEO", img: "https://i.pravatar.cc/150?img=32" },
+                { name: "Randy Press", role: "Director", img: "https://i.pravatar.cc/150?img=12" },
+                { name: "Workman", role: "Designer", img: "https://i.pravatar.cc/150?img=5" },
+                { name: "Workwoman", role: "Designer", img: "https://i.pravatar.cc/150?img=5" },
+                { name: "Livia Bator", role: "CEO", img: "https://i.pravatar.cc/150?img=32" },
+                { name: "Randy Press", role: "Director", img: "https://i.pravatar.cc/150?img=12" },
+                { name: "Workman", role: "Designer", img: "https://i.pravatar.cc/150?img=5" },
+           
+            ]);
+          }, 500)
+        );
   
   export const fetchTransactions = () =>
     new Promise((resolve) =>
@@ -51,6 +99,20 @@ export const fetchUserInfo = () =>
             date: "25 January 2021",
             amount: "+$2,500",
             icon: "paypal",
+            color: "green",
+          },
+          {
+            name: "Jemi Wilson",
+            date: "21 January 2021",
+            amount: "+$5,400",
+            icon: "user",
+            color: "green",
+          },
+          {
+            name: "Jemi Wilson",
+            date: "21 January 2021",
+            amount: "+$5,400",
+            icon: "user",
             color: "green",
           },
           {

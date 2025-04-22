@@ -10,17 +10,6 @@ import { ReactComponent as LoansIcon } from "../assets/icons/loansIcon.svg";
 import { ReactComponent as ServicesIcon } from "../assets/icons/servicesIcon.svg";
 import { ReactComponent as PrivilegesIcon } from "../assets/icons/privilegesIcon.svg";
 import { ReactComponent as SettingsIcon } from "../assets/icons/settingsIcon.svg";
-import {
-  MdDashboard,
-  MdPayment,
-  MdAccountBalanceWallet,
-  MdBarChart,
-  MdCreditCard,
-  MdSwapHoriz,
-  MdWorkspaces,
-  MdLoyalty,
-  MdSettings,
-} from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
 
 const SidebarWrapper = styled.div`
@@ -82,7 +71,7 @@ top: 31px;
 
 const Nav = styled.ul`
   list-style: none;
-  padding: 0 1rem;
+  padding: 2rem 1rem 0rem 2rem;
   margin: 0;
 `;
 
@@ -115,31 +104,6 @@ const NavItem = styled.li`
     }
   }
 `;
-
-
-// const NavItem = styled.li.attrs(({ $active }) => ({ $active }))`
-//   display: flex;
-
-//     font-style: normal;
-//     font-weight: 500;
-//     font-size: 18px;
-//     line-height: 22px;
-//    color: #B1B1B1;
-  
-//   align-items: center;
-//   gap: 1rem;
-//   padding: 0.8rem 1rem;
-//   margin-bottom: 0.5rem;
-//   border-radius: 8px;
-  
-//   font-weight: 500;
-//   cursor: pointer;
-
-//   &:hover {
-   
-//     color: #232323;;
-//   }
-// `;
 
 const Sidebar = ({ open, toggleSidebar }) => {
   const location = useLocation();

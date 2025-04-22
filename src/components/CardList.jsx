@@ -13,16 +13,19 @@ const CardsWrapper = styled.div`
   }
 `;
 
-const CardList = () => {
+const CardList = ({ limit }) => {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
     fetchCards().then(setCards);
   }, []);
 
+
+  const visibleCards = limit ? cards.slice(0, limit) : cards;
+
   return (
     <CardsWrapper>
-      {cards.map((card) => (
+      {visibleCards.map((card) => (
         <CreditCard
           key={card.id}
           variant={card.dark ? "dark" : "light"}
@@ -37,4 +40,3 @@ const CardList = () => {
 };
 
 export default CardList;
-

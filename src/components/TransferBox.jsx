@@ -1,13 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { fetchUsers } from "../api/mockApi";
 import { ReactComponent as SendIcon } from "../assets/icons/sendIcon.svg";
 import { ReactComponent as ArrowIcon } from "../assets/icons/arrowRightIcon.svg";
-
-const users = [
-  { name: "Livia Bator", role: "CEO", img: "https://i.pravatar.cc/150?img=32" },
-  { name: "Randy Press", role: "Director", img: "https://i.pravatar.cc/150?img=12" },
-  { name: "Workman", role: "Designer", img: "https://i.pravatar.cc/150?img=5" },
-];
 
 const Box = styled.div`
   background: white;
@@ -24,12 +19,12 @@ const ContactList = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  flex-wrap: wrap;
 `;
 
 const Profile = styled.div`
   text-align: center;
-  flex: 1;
+  width: 100px;
+  flex-shrink: 0;
 `;
 
 const Avatar = styled.img`
@@ -50,7 +45,7 @@ const Role = styled.p`
   font-size: 0.9rem;
   font-weight: 500;
   color: #8ba3cb;
-  margin: 0;
+  margin: 0.5rem 0 0;
 `;
 
 const ArrowWrapper = styled.button`
@@ -63,6 +58,7 @@ const ArrowWrapper = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transform: ${({ rotate }) => (rotate ? "rotate(180deg)" : "none")};
 `;
 
 const InputWrapper = styled.div`
@@ -78,9 +74,9 @@ const InputWrapper = styled.div`
 `;
 
 const Label = styled.div`
-  color: #8ba3cb;
+  color: #718ebf;
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 200;
   min-width: 120px;
 `;
 
@@ -99,9 +95,9 @@ const AmountInput = styled.input`
   border: none;
   background: transparent;
   font-size: 1.2rem;
-  font-weight: 500;
-  color: #343c6a;
-  max-width: 100px;
+  font-weight: 200;
+  color: #718ebf;
+  max-width: 120px;
 
   &:focus {
     outline: none;
@@ -137,25 +133,82 @@ const SendButton = styled.button`
 `;
 
 const TransferBox = () => {
+  const [users, setUsers] = useState([]);
+  const [rawAmount, setRawAmount] = useState("525.50");
+  const [isFocused, setIsFocused] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
+
+  useEffect(() => {
+    fetchUsers().then(setUsers);
+  }, []);
+
+  const visibleUsers = users.slice(startIndex, startIndex + 3);
+
+  const handleNext = () => {
+    if (startIndex + 3 < users.length) {
+      setStartIndex(startIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (startIndex > 0) {
+      setStartIndex(startIndex - 1);
+    }
+  };
+
+  const formatAmount = (value) => {
+    const num = parseFloat(value);
+    return isNaN(num) ? "" : num.toFixed(2);
+  };
+
+  const handleAmountChange = (e) => {
+    const input = e.target.value.replace(/[^\d.]/g, "");
+    if ((input.match(/\./g) || []).length > 1) return;
+    setRawAmount(input);
+  };
+
+  const handleBlur = () => {
+    setRawAmount(formatAmount(rawAmount));
+    setIsFocused(false);
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
   return (
     <Box>
       <ContactList>
-        {users.map((user, index) => (
+        {startIndex > 0 && (
+          <ArrowWrapper rotate onClick={handlePrev}>
+            <ArrowIcon />
+          </ArrowWrapper>
+        )}
+        {visibleUsers.map((user, index) => (
           <Profile key={index}>
             <Avatar src={user.img} alt={user.name} />
             <Name>{user.name}</Name>
             <Role>{user.role}</Role>
           </Profile>
         ))}
-        <ArrowWrapper>
-          <ArrowIcon />
-        </ArrowWrapper>
+        {startIndex + 3 < users.length && (
+          <ArrowWrapper onClick={handleNext}>
+            <ArrowIcon />
+          </ArrowWrapper>
+        )}
       </ContactList>
 
       <InputWrapper>
         <Label>Write Amount</Label>
         <InputRow>
-          <AmountInput type="number" value="525.50" />
+          <AmountInput
+            type="text"
+            value={isFocused ? rawAmount : `$${formatAmount(rawAmount)}`}
+            onChange={handleAmountChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            placeholder="0.00"
+          />
           <SendButton>
             Send <SendIcon />
           </SendButton>
@@ -166,4 +219,3 @@ const TransferBox = () => {
 };
 
 export default TransferBox;
-
