@@ -1,4 +1,3 @@
-// src/charts/BalanceLineChart.jsx
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
@@ -8,10 +7,10 @@ import {
   LinearScale,
   PointElement,
   Tooltip,
-  Legend,
+  Filler,
 } from "chart.js";
-import { fetchChartData } from "../api/mockApi";
 import styled from "styled-components";
+import { fetchChartData } from "../api/mockApi";
 
 ChartJS.register(
   LineElement,
@@ -19,17 +18,41 @@ ChartJS.register(
   LinearScale,
   PointElement,
   Tooltip,
-  Legend
+  Filler
 );
+
+//  Styled Wrapper with rounded white box
+const ChartCard = styled.div`
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 1rem;
+    height: 240px;
+  }
+`;
 
 const ChartWrapper = styled.div`
   width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-  padding: 1rem 0;
+  height: 180px;
+
+  @media (max-width: 768px) {
+    height: 160px;
+  }
 
   canvas {
-    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
   }
 `;
 
@@ -48,14 +71,12 @@ const BalanceLineChart = () => {
       {
         label: "Balance",
         data: balance,
-        fill: false,
-        borderColor: "#4CAF50",
-        backgroundColor: "#4CAF50",
-        tension: 0.4,
-        pointRadius: 4,
-        pointBackgroundColor: "#fff",
-        pointBorderColor: "#4CAF50",
-        pointHoverRadius: 6,
+        fill: true,
+        tension: 0.5,
+        backgroundColor: "rgba(78, 115, 223, 0.05)",
+        borderColor: "#4E73DF",
+        pointRadius: 0,
+        borderWidth: 2,
       },
     ],
   };
@@ -64,26 +85,43 @@ const BalanceLineChart = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        display: false,
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: "#fff",
+        titleColor: "#1e1e1e",
+        bodyColor: "#555",
+        borderColor: "#eee",
+        borderWidth: 1,
+        padding: 10,
       },
     },
     scales: {
-      y: {
-        grid: { color: "#eee" },
-        ticks: { color: "#999" },
-      },
       x: {
         grid: { display: false },
-        ticks: { color: "#999" },
+        ticks: {
+          color: "#718EBF",
+          font: { size: 12 },
+        },
+      },
+      y: {
+        grid: {
+          color: "#e3e6ec",
+          lineWidth: 0.5,
+        },
+        ticks: {
+          color: "#718EBF",
+          font: { size: 12 },
+        },
       },
     },
   };
 
   return (
-    <ChartWrapper>
-      <Line data={data} options={options} height={300} />
-    </ChartWrapper>
+    <ChartCard>
+      <ChartWrapper>
+        <Line data={data} options={options} />
+      </ChartWrapper>
+    </ChartCard>
   );
 };
 
