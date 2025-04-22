@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import CreditCard from "./CreditCard";
 
 const DrawerOverlay = styled.div`
   position: fixed;
@@ -17,7 +18,7 @@ const Drawer = styled.div`
   top: ${({ open }) => (open ? "0" : "-100%")};
   left: 0;
   width: 100%;
-  height: 70vh;
+  height: 45vh;
   background: white;
   z-index: 1000;
   transition: top 0.4s ease;
@@ -28,6 +29,7 @@ const Drawer = styled.div`
 
 const Header = styled.div`
   padding: 1rem 2rem;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -43,17 +45,32 @@ const CloseBtn = styled.button`
 `;
 
 const CardListWrapper = styled.div`
-  padding: 1rem 2rem;
+  padding: 2rem 2rem 2rem 2rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 1rem;
 `;
 
-const Card = styled.div`
-  background: #f5f5f5;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+const ScrollContainer = styled.div`
+  max-height: 100% ;
+  overflow-y: auto;
+  padding-right: 6px;
+
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 `;
 
 const CardDrawer = ({ open, onClose, cards }) => {
@@ -65,19 +82,25 @@ const CardDrawer = ({ open, onClose, cards }) => {
           All Cards
           <CloseBtn onClick={onClose}>✕</CloseBtn>
         </Header>
+        <ScrollContainer>
         <CardListWrapper>
-          {cards.map((card) => (
-            <Card key={card.id}>
-              <p><strong>{card.name}</strong></p>
-              <p>{card.number}</p>
-              <p>Expires {card.expiry}</p>
-              <p>Balance: {card.balance}</p>
-            </Card>
+        {cards.map((card) => (
+            <CreditCard
+              key={card.id}
+              variant={card.dark ? "dark" : "light"}
+              name={card.name}
+              expiry={card.expiry}
+              number={card.number}
+              balance={card.balance}
+            />
           ))}
         </CardListWrapper>
+        </ScrollContainer>
       </Drawer>
     </>
   );
 };
 
 export default CardDrawer;
+
+ 

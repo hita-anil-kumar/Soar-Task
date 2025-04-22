@@ -75,23 +75,25 @@ const WeeklyActivityChart = () => {
   const data = {
     labels: ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
     datasets: [
-      {
-        label: "Deposit",
-        data: weekly.deposit,
-        backgroundColor: "#3f75fe",
-        borderRadius: 10,
-        barThickness: 12,
-        borderSkipped: false,
-      },
-      {
-        label: "Withdraw",
-        data: weekly.withdraw,
-        backgroundColor: "#1e1e1e",
-        borderRadius: 10,
-        barThickness: 12,
-        borderSkipped: false,
-      },
-    ],
+  {
+    label: "Withdraw",
+    data: weekly.withdraw,
+    backgroundColor: "#1e1e1e",
+    borderRadius: 10,
+    barThickness: 12,
+    borderSkipped: false,
+    
+  },
+  {
+    label: "Deposit",
+    data: weekly.deposit,
+    backgroundColor: "#3f75fe",
+    borderRadius: 10,
+    barThickness: 12,
+    borderSkipped: false,
+  },
+],
+
   };
 
   const options = {
@@ -109,6 +111,7 @@ const WeeklyActivityChart = () => {
       },
     },
     layout: {
+     
       padding: {
         top: 10,
         bottom: 10,
@@ -118,16 +121,20 @@ const WeeklyActivityChart = () => {
     },
     scales: {
       x: {
-        grid: { display: false },
+        stacked: false,
+        grid: { display: false },      
         ticks: {
           color: "#718ebf",
           font: { size: 12, family: "'Inter', sans-serif" },
         },
+        offset: true,
       },
       y: {
         grid: {
           color: "#f1f1f1",
         },
+        min:0,
+        max: 500,
         ticks: {
           stepSize: 100,
           color: "#718ebf",

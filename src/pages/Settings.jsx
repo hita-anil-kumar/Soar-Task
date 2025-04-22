@@ -1,9 +1,10 @@
-// src/pages/Settings.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { fetchUserInfo } from "../api/mockApi";
+import { ReactComponent as EditIcon } from "../assets/icons/edit-pencil.svg";
+
 
 const Layout = styled.div`
   display: flex;
@@ -39,16 +40,10 @@ const Card = styled.div`
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-
-  @media (max-width: 768px) {
-    padding: 1rem;
-  }
 `;
-
 
 const Tabs = styled.div`
   display: flex;
-  justify-content: left;
   gap: 2rem;
   border-bottom: 1px solid #ddd;
   margin-bottom: 2rem;
@@ -66,10 +61,27 @@ const Tab = styled.button`
   cursor: pointer;
 `;
 
+const FormLayout = styled.div`
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
 const ProfileSection = styled.div`
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   margin-bottom: 2rem;
+`;
+
+const AvatarWrapper = styled.div`
+  position: relative;
+  width: 80px;
+  height: 80px;
 `;
 
 const Avatar = styled.img`
@@ -77,12 +89,42 @@ const Avatar = styled.img`
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+`;
+
+const UploadInput = styled.input`
+  display: none;
+`;
+
+const EditButton = styled.label`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #232323;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+`;
+
+
+const HiddenInput = styled.input`
+  display: none;
 `;
 
 const FormGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+  flex: 1;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -106,6 +148,7 @@ const Input = styled.input`
   border-radius: 10px;
   background: #f9f9f9;
   font-size: 0.95rem;
+ color: #718EBF;
 `;
 
 const SaveWrapper = styled.div`
@@ -119,7 +162,8 @@ const SaveWrapper = styled.div`
 `;
 
 const SaveButton = styled.button`
-    background: #1e40af;
+
+  background: #232323;
   color: #fff;
   border: none;
   padding: 0.8rem 2rem;
@@ -128,7 +172,7 @@ const SaveButton = styled.button`
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
-
+  width: 190px;
   &:hover {
     background-color: #2e5ce6;
   }
@@ -143,10 +187,13 @@ const Settings = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const [user, setUser] = useState({});
   const [formData, setFormData] = useState({});
+  const [profileImage, setProfileImage] = useState("");
+  const fileInputRef = useRef();
 
   useEffect(() => {
     fetchUserInfo().then((data) => {
       setUser(data);
+      setProfileImage(data.profileImage || "https://i.pravatar.cc/100");
       setFormData({
         name: data.name,
         username: data.name,
@@ -167,6 +214,15 @@ const Settings = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => setProfileImage(reader.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSave = () => {
     console.log("Saved Data:", formData);
     alert("Changes saved successfully!");
@@ -183,58 +239,81 @@ const Settings = () => {
           <Card>
             <Tabs>
               <Tab active={activeTab === "profile"} onClick={() => setActiveTab("profile")}>Edit Profile</Tab>
-              <Tab active={activeTab === "preferences"} onClick={() => setActiveTab("preferences")}>Preference</Tab>
+              <Tab active={activeTab === "preferences"} onClick={() => setActiveTab("preferences")}>Preferences</Tab>
               <Tab active={activeTab === "security"} onClick={() => setActiveTab("security")}>Security</Tab>
             </Tabs>
 
             {activeTab === "profile" && (
               <>
+                <FormLayout>
                 <ProfileSection>
+                <AvatarWrapper>
                   <Avatar src={user.profileImage || "https://i.pravatar.cc/100"} alt="User" />
-                </ProfileSection>
+                  <UploadInput
+                    type="file"
+                    id="avatarUpload"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          setUser((prev) => ({ ...prev, profileImage: reader.result }));
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+                  <EditButton htmlFor="avatarUpload">
+                    <EditIcon />
+                  </EditButton>
+                </AvatarWrapper>
+              </ProfileSection>
+              
 
-                <FormGrid>
-                  <Field>
-                    <Label>Your Name</Label>
-                    <Input name="name" type="text" value={formData.name || ""} onChange={handleChange} />
-                  </Field>
-                  <Field>
-                    <Label>User Name</Label>
-                    <Input name="username" type="text" value={formData.username || ""} onChange={handleChange} />
-                  </Field>
-                  <Field>
-                    <Label>Email</Label>
-                    <Input name="email" type="email" value={formData.email || ""} onChange={handleChange} />
-                  </Field>
-                  <Field>
-                    <Label>Password</Label>
-                    <Input name="password" type="password" value={formData.password || ""} onChange={handleChange} />
-                  </Field>
-                  <Field>
-                    <Label>Date of Birth</Label>
-                    <Input name="dob" type="text" value={formData.dob || ""} onChange={handleChange} />
-                  </Field>
-                  <Field>
-                    <Label>Present Address</Label>
-                    <Input name="present" type="text" value={formData.present || ""} onChange={handleChange} />
-                  </Field>
-                  <Field>
-                    <Label>Permanent Address</Label>
-                    <Input name="permanent" type="text" value={formData.permanent || ""} onChange={handleChange} />
-                  </Field>
-                  <Field>
-                    <Label>City</Label>
-                    <Input name="city" type="text" value={formData.city || ""} onChange={handleChange} />
-                  </Field>
-                  <Field>
-                    <Label>Postal Code</Label>
-                    <Input name="postal" type="text" value={formData.postal || ""} onChange={handleChange} />
-                  </Field>
-                  <Field>
-                    <Label>Country</Label>
-                    <Input name="country" type="text" value={formData.country || ""} onChange={handleChange} />
-                  </Field>
-                </FormGrid>
+                  <FormGrid>
+                    <Field>
+                      <Label>Your Name</Label>
+                      <Input name="name" value={formData.name || ""} onChange={handleChange} />
+                    </Field>
+                    <Field>
+                      <Label>User Name</Label>
+                      <Input name="username" value={formData.username || ""} onChange={handleChange} />
+                    </Field>
+                    <Field>
+                      <Label>Email</Label>
+                      <Input name="email" type="email" value={formData.email || ""} onChange={handleChange} />
+                    </Field>
+                    <Field>
+                      <Label>Password</Label>
+                      <Input name="password" type="password" value={formData.password || ""} onChange={handleChange} />
+                    </Field>
+                    <Field>
+                      <Label>Date of Birth</Label>
+                      <Input name="dob" value={formData.dob || ""} onChange={handleChange} />
+                    </Field>
+                    <Field>
+                      <Label>Present Address</Label>
+                      <Input name="present" value={formData.present || ""} onChange={handleChange} />
+                    </Field>
+                    <Field>
+                      <Label>Permanent Address</Label>
+                      <Input name="permanent" value={formData.permanent || ""} onChange={handleChange} />
+                    </Field>
+                    <Field>
+                      <Label>City</Label>
+                      <Input name="city" value={formData.city || ""} onChange={handleChange} />
+                    </Field>
+                    <Field>
+                      <Label>Postal Code</Label>
+                      <Input name="postal" value={formData.postal || ""} onChange={handleChange} />
+                    </Field>
+                    <Field>
+                      <Label>Country</Label>
+                      <Input name="country" value={formData.country || ""} onChange={handleChange} />
+                    </Field>
+                  </FormGrid>
+                </FormLayout>
 
                 <SaveWrapper>
                   <SaveButton onClick={handleSave}>Save</SaveButton>
@@ -251,4 +330,3 @@ const Settings = () => {
 };
 
 export default Settings;
-

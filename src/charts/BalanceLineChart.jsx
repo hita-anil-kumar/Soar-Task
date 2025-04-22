@@ -21,7 +21,7 @@ ChartJS.register(
   Filler
 );
 
-//  Styled Wrapper with rounded white box
+// Rounded card container
 const ChartCard = styled.div`
   background: #ffffff;
   border-radius: 24px;
@@ -42,6 +42,7 @@ const ChartCard = styled.div`
   }
 `;
 
+// Chart container
 const ChartWrapper = styled.div`
   width: 100%;
   height: 180px;
@@ -97,7 +98,11 @@ const BalanceLineChart = () => {
     },
     scales: {
       x: {
-        grid: { display: false },
+        grid: {
+          drawBorder: false,
+          borderDash: [4, 4],
+          color: "#DCE6F9",
+        },
         ticks: {
           color: "#718EBF",
           font: { size: 12 },
@@ -105,12 +110,17 @@ const BalanceLineChart = () => {
       },
       y: {
         grid: {
-          color: "#e3e6ec",
-          lineWidth: 0.5,
+          drawBorder: false,
+          borderDash: [4, 4],
+          color: "#DCE6F9",
         },
+        min: 0,
+          max: 800,
         ticks: {
           color: "#718EBF",
           font: { size: 12 },
+          stepSize: 200,
+          
         },
       },
     },

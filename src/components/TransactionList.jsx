@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { fetchTransactions } from "../api/mockApi";
 
-// SVG Icons
 import { ReactComponent as CreditCardIcon } from "../assets/icons/cardIcon.svg";
 import { ReactComponent as PaypalIcon } from "../assets/icons/paypalIcon.svg";
 import { ReactComponent as UserIcon } from "../assets/icons/userIcon.svg";
@@ -10,10 +9,31 @@ import { ReactComponent as UserIcon } from "../assets/icons/userIcon.svg";
 const Container = styled.div`
   background: white;
   border-radius: 24px;
-  padding: 1.2rem 1.2rem;
+  padding: 1.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+`;
+
+const ScrollContainer = styled.div`
+  max-height: 218px; /* Approx height for 3 items */
+  overflow-y: auto;
+  padding-right: 6px;
+
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 `;
 
 const ListWrapper = styled.div`
@@ -67,7 +87,7 @@ const TextInfo = styled.div`
 
 const Title = styled.p`
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 500;
   color: #232323;
   margin: 0;
 `;
@@ -80,7 +100,7 @@ const Date = styled.p`
 
 const Amount = styled.p`
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   margin: 0;
   color: ${({ color }) => color || "#232323"};
 `;
@@ -109,26 +129,27 @@ const TransactionList = () => {
 
   return (
     <Container>
-      <ListWrapper>
-        {transactions.map((tx, idx) => {
-          const iconConfig = iconMap[tx.icon] || {};
-          return (
-            <Item key={idx}>
-              <Info>
-                <IconBox bg={iconConfig.bg}>{iconConfig.icon}</IconBox>
-                <TextInfo>
-                  <Title>{tx.name}</Title>
-                  <Date>{tx.date}</Date>
-                </TextInfo>
-              </Info>
-              <Amount color={tx.color}>{tx.amount}</Amount>
-            </Item>
-          );
-        })}
-      </ListWrapper>
+      <ScrollContainer>
+        <ListWrapper>
+          {transactions.map((tx, idx) => {
+            const iconConfig = iconMap[tx.icon] || {};
+            return (
+              <Item key={idx}>
+                <Info>
+                  <IconBox bg={iconConfig.bg}>{iconConfig.icon}</IconBox>
+                  <TextInfo>
+                    <Title>{tx.name}</Title>
+                    <Date>{tx.date}</Date>
+                  </TextInfo>
+                </Info>
+                <Amount color={tx.color}>{tx.amount}</Amount>
+              </Item>
+            );
+          })}
+        </ListWrapper>
+      </ScrollContainer>
     </Container>
   );
 };
 
 export default TransactionList;
-

@@ -54,7 +54,7 @@ const ContentArea = styled.div`
 const SideBySideWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding: 2rem;
+  padding: 0rem 2rem 2rem 2rem;
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
@@ -67,13 +67,15 @@ const SectionHeader = styled.div`
 `;
 
 const SeeAllButton = styled.button`
+
+
   background: none;
   border: none;
-  color: #1e40af;
+  color: #343C6A;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-
+    line-height: 21px;
   &:hover {
     text-decoration: underline;
   }
@@ -92,9 +94,9 @@ const Section = styled.div`
 
 
 const SectionTitle = styled.h3`
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
+  font-size: 1.3rem;
+  font-weight: 550;
+  color: #343C6A;
 
   @media (max-width: 768px) {
     font-size: 1rem;
@@ -123,7 +125,7 @@ const Dashboard = () => {
           <SectionTitle>My Cards</SectionTitle>
           <SeeAllButton onClick={() => setDrawerOpen(true)}>See All</SeeAllButton>
         </SectionHeader>
-        <CardList />
+        <CardList limit={2}/>
       </Section>
       
 
