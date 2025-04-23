@@ -47,3 +47,12 @@ const App = () => {
 };
 
 export default App;
+
+<Router>
+<UserProvider>
+  <Routes>
+    <Route path="/" element={<MainLayout><Dashboard /></MainLayout>} />
+    <Route path="/settings" element={<MainLayout><Settings /></MainLayout>} />
+  </Routes>
+  </UserProvider>
+</Router>

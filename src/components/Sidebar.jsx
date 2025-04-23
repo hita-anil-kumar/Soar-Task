@@ -40,7 +40,7 @@ const Brand = styled.div`
   line-height: 30px;
   color: #343c6a;
 
-  padding: 1.5rem 2rem;
+  padding: 2rem 2rem;
 
   svg {
     width: 24px;
@@ -49,61 +49,12 @@ const Brand = styled.div`
   }
 `;
 
-const IconWrapper = styled.div`
-
-width: 35px;
-height: 35px;
-left: 38px;
-top: 31px;
-
-
-  display: flex;
-  align-items: left;
-  gap: 1rem;
-
-  svg {
-    width: 20px;
-    height: 20px;
-    fill: ${({ active }) => (active ? "#1e40af" : "#999")};
-    transition: fill 0.3s ease;
-  }
-`;
-
 const Nav = styled.ul`
   list-style: none;
-  padding: 2rem 1rem 0rem 0rem;
+  padding: 1rem 1rem 0rem 0rem;
   margin: 0;
 `;
 
-// const NavItem = styled.li`
-//   display: flex;
-//   align-items: center;
-//   gap: 1rem;
-//   padding: 0.8rem 1rem;
-//   margin-bottom: 0.5rem;
-//   border-radius: 8px;
-//   font-size: 18px;
-//   line-height: 22px;
-//   color: ${({ $active }) => ($active ? "#232323;" : "#b1b1b1")};
-//   font-weight: 500;
-//   cursor: pointer;
-//   transition: all 0.2s ease;
-
-//   svg {
-//     width: 20px;
-//     height: 20px;
-//     fill: ${({ $active }) => ($active ? "#232323;" : "#999")};
-//   }
-
-//   &:hover {
-//     background: #f0f4ff;
-//     color: #232323;
-
-//     svg {
-//       fill: #232323;
-//     }
-//   }
-// `;
 const NavItem = styled.li`
   position: relative;
   display: flex;

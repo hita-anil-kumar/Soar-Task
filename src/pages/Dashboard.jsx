@@ -125,7 +125,7 @@ const Dashboard = () => {
           <SectionTitle>My Cards</SectionTitle>
           <SeeAllButton onClick={() => setDrawerOpen(true)}>See All</SeeAllButton>
         </SectionHeader>
-        <CardList limit={2}/>
+        <CardList cards={allCards} limit={2}/>
       </Section>
       
 
