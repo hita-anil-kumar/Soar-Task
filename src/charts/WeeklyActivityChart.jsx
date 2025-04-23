@@ -26,6 +26,42 @@ const ChartWrapper = styled.div`
 `;
 
 
+// Custom plugin to draw fully rounded bars
+const fullyRoundedBarsPlugin = {
+    id: "fullyRoundedBars",
+    beforeDatasetsDraw(chart) {
+      const { ctx } = chart;
+      chart.data.datasets.forEach((dataset, datasetIndex) => {
+        const meta = chart.getDatasetMeta(datasetIndex);
+        meta.data.forEach((bar, index) => {
+          const { x, y, base, width } = bar;
+          const radius = 10;
+          const top = Math.min(y, base);
+          const bottom = Math.max(y, base);
+  
+          ctx.save();
+          ctx.beginPath();
+          ctx.fillStyle = dataset.backgroundColor;
+  
+          ctx.moveTo(x - width / 2, bottom - radius);
+          ctx.quadraticCurveTo(x - width / 2, bottom, x - width / 2 + radius, bottom);
+          ctx.lineTo(x + width / 2 - radius, bottom);
+          ctx.quadraticCurveTo(x + width / 2, bottom, x + width / 2, bottom - radius);
+          ctx.lineTo(x + width / 2, top + radius);
+          ctx.quadraticCurveTo(x + width / 2, top, x + width / 2 - radius, top);
+          ctx.lineTo(x - width / 2 + radius, top);
+          ctx.quadraticCurveTo(x - width / 2, top, x - width / 2, top + radius);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        });
+      });
+  
+      return false; // prevent default bar drawing
+    },
+  };
+  
+
 const LegendRow = styled.div`
   display: flex;
   align-items: center;
@@ -133,7 +169,7 @@ const data = {
         <span className="deposit">Deposit</span>
         <span className="withdraw">Withdraw</span>
       </LegendRow>
-        <Bar data={data} options={options} />
+        <Bar data={data} options={options} plugins={[fullyRoundedBarsPlugin]} />
     </ChartWrapper>
   );
 };
