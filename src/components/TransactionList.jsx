@@ -12,6 +12,7 @@ const Container = styled.div`
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
+  
 `;
 
 const ScrollContainer = styled.div`
@@ -75,8 +76,8 @@ const IconBox = styled.div`
   justify-content: center;
 
   svg {
-    width: 22px;
-    height: 22px;
+    width: 50px;
+    height: 50px;
   }
 `;
 
@@ -136,7 +137,7 @@ const TransactionList = () => {
             return (
               <Item key={idx}>
                 <Info>
-                  <IconBox bg={iconConfig.bg}>{iconConfig.icon}</IconBox>
+                  <IconBox  bg={iconConfig.bg}>{iconConfig.icon}</IconBox>
                   <TextInfo>
                     <Title>{tx.name}</Title>
                     <Date>{tx.date}</Date>

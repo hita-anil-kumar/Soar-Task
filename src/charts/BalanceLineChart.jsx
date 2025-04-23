@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef} from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -59,6 +59,7 @@ const ChartWrapper = styled.div`
 
 const BalanceLineChart = () => {
   const [balance, setBalance] = useState([]);
+  const chartRef = useRef(null);
 
   useEffect(() => {
     fetchChartData().then((data) => {
@@ -66,6 +67,17 @@ const BalanceLineChart = () => {
     });
   }, []);
 
+
+
+  let gradient = null;
+
+  if (chartRef.current) {
+    const ctx = chartRef.current.getContext("2d");
+    gradient = ctx.createLinearGradient(0, 0, 0, 200);
+    gradient.addColorStop(0, "rgba(45, 96, 255, 0.5)");
+    gradient.addColorStop(1, "rgba(45, 96, 255, 0)");
+  }
+  
   const data = {
     labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"],
     datasets: [
@@ -73,11 +85,12 @@ const BalanceLineChart = () => {
         label: "Balance",
         data: balance,
         fill: true,
-        tension: 0.5,
-        backgroundColor: "rgba(78, 115, 223, 0.05)",
-        borderColor: "#4E73DF",
+        tension: 0.3,
+        backgroundColor: gradient || "rgba(78, 115, 223, 0.05)",
+        borderColor: "#1814F3",
         pointRadius: 0,
         borderWidth: 2,
+
       },
     ],
   };
@@ -129,6 +142,7 @@ const BalanceLineChart = () => {
   return (
     <ChartCard>
       <ChartWrapper>
+      <canvas ref={chartRef} style={{ display: "none" }} />
         <Line data={data} options={options} />
       </ChartWrapper>
     </ChartCard>
