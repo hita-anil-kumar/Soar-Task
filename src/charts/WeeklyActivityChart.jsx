@@ -25,12 +25,6 @@ const ChartWrapper = styled.div`
   }
 `;
 
-const ChartTitle = styled.h3`
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #343c6a;
-  margin-bottom: 1rem;
-`;
 
 const LegendRow = styled.div`
   display: flex;
@@ -64,7 +58,7 @@ justify-content: right;
 `;
 
 const WeeklyActivityChart = () => {
-  const [weekly, setWeekly] = useState({ deposit: [], withdraw: [] });
+  const [, setWeekly] = useState({ deposit: [], withdraw: [] });
 
   useEffect(() => {
     fetchChartData().then((data) => {
@@ -72,37 +66,36 @@ const WeeklyActivityChart = () => {
     });
   }, []);
 
-  const data = {
+const data = {
     labels: ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
     datasets: [
-  {
-    label: "Withdraw",
-    data: weekly.withdraw,
-    backgroundColor: "#1e1e1e",
-    borderRadius: 10,
-    barThickness: 12,
-    borderSkipped: false,
-    
-  },
-  {
-    label: "Deposit",
-    data: weekly.deposit,
-    backgroundColor: "#3f75fe",
-    borderRadius: 10,
-    barThickness: 12,
-    borderSkipped: false,
-  },
-],
-
+      {
+        label: "Withdraw",
+        data: [200, 150, 180, 100, 250, 220, 180],
+        backgroundColor: "#1e1e1e",
+        borderRadius: 10,
+        barThickness: "flex", 
+        categoryPercentage: 0.6, // controls spacing between groups
+        barPercentage: 0.5, // makes individual bars thinner
+      },
+      {
+        label: "Deposit",
+        data: [300, 250, 320, 200, 300, 260, 280],
+        backgroundColor: "#3f75fe",
+        borderRadius: 10,
+        barThickness: "flex",
+        categoryPercentage: 0.6,
+        barPercentage: 0.5,
+      },
+    ],
   };
-
+  
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
       tooltip: {
-        cornerRadius: 8,
         backgroundColor: "#fff",
         titleColor: "#000",
         bodyColor: "#000",
@@ -110,31 +103,21 @@ const WeeklyActivityChart = () => {
         borderWidth: 1,
       },
     },
-    layout: {
-     
-      padding: {
-        top: 10,
-        bottom: 10,
-        left: 0,
-        right: 0,
-      },
-    },
     scales: {
       x: {
-        stacked: false,
-        grid: { display: false },      
+        grid: { display: false },
         ticks: {
           color: "#718ebf",
           font: { size: 12, family: "'Inter', sans-serif" },
         },
-        offset: true,
       },
       y: {
+        min: 0,
+        max: 500,
         grid: {
           color: "#f1f1f1",
+          borderDash: [4, 4],
         },
-        min:0,
-        max: 500,
         ticks: {
           stepSize: 100,
           color: "#718ebf",
@@ -143,18 +126,17 @@ const WeeklyActivityChart = () => {
       },
     },
   };
-
+ 
   return (
-    <ChartWrapper>
+    <ChartWrapper style={{ height: 300 }}>
       <LegendRow>
         <span className="deposit">Deposit</span>
         <span className="withdraw">Withdraw</span>
       </LegendRow>
-      <div style={{ height: 300 }}>
         <Bar data={data} options={options} />
-      </div>
     </ChartWrapper>
   );
 };
 
 export default WeeklyActivityChart;
+

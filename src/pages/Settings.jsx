@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
@@ -7,6 +7,8 @@ import { ReactComponent as EditIcon } from "../assets/icons/edit-pencil.svg";
 import ArrowDownIcon from "../assets/icons/arrow-down.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import { UserContext } from '../context/UserContext';
+
 
 
 
@@ -171,6 +173,7 @@ const SaveButton = styled.button`
   cursor: pointer;
 `;
 
+
 const DatePickerInput = styled(DatePicker)`
   width: 100%;
   padding: 0.8rem 2.5rem 0.8rem 1rem;
@@ -181,46 +184,33 @@ const DatePickerInput = styled(DatePicker)`
   font-size: 0.95rem;
   color: #718EBF;
   appearance: none;
-    cursor: pointer;
+  cursor: pointer;
 
   &::placeholder {
     color: #718EBF;
   }
 `;
+
 const Settings = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
-  const [user, setUser] = useState({});
-  const [formData, setFormData] = useState({});
   const fileInputRef = useRef();
+  const { user, setUser } = useContext(UserContext);
+  const [formData, setFormData] = useState({});
+ 
 
   useEffect(() => {
     fetchUserInfo().then((data) => {
-      setUser(data);
-      setFormData({
-        name: "",
-        username: "",
-        email: "",
-        password: "",
-        dob: "",
-        present: "",
-        permanent: "",
-        city: "",
-        postal: "",
-        country: "",
-      });
+      const stored = JSON.parse(localStorage.getItem("userProfile")) || data;
+      setUser(stored);
+      setFormData({ ...stored });
     });
-  }, []);
+  }, [setUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Email validation
     if (name === "email" && value && !value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) return;
-
-    // Password validation (min 6 chars)
     if (name === "password" && value && value.length < 6) return;
-
     setFormData({ ...formData, [name]: value });
   };
 
@@ -228,15 +218,22 @@ const Settings = () => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => setUser((prev) => ({ ...prev, profileImage: reader.result }));
+      reader.onload = () => {
+        const updated = { ...formData, profileImage: reader.result };
+        setUser(updated);
+        setFormData(updated);
+        localStorage.setItem("userProfile", JSON.stringify(updated));
+      };
       reader.readAsDataURL(file);
     }
   };
 
   const handleSave = () => {
-    console.log("Saved Data:", formData);
+    setUser(formData);
+    localStorage.setItem("userProfile", JSON.stringify(formData));
     alert("Changes saved successfully!");
   };
+
   return (
     <Layout>
       <SidebarWrapper>
@@ -255,21 +252,21 @@ const Settings = () => {
             {activeTab === "profile" && (
               <>
                 <FormLayout>
-                  <ProfileSection>
-                    <AvatarWrapper>
-                      <Avatar src={user.profileImage || "https://i.pravatar.cc/100"} alt="User" />
-                      <UploadInput
-                        type="file"
-                        id="avatarUpload"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        ref={fileInputRef}
-                      />
-                      <EditButton htmlFor="avatarUpload">
-                        <EditIcon />
-                      </EditButton>
-                    </AvatarWrapper>
-                  </ProfileSection>
+                <ProfileSection>
+                <AvatarWrapper>
+                  <Avatar src={formData.profileImage || "https://i.pravatar.cc/100"} alt="User" />
+                  <UploadInput
+                    type="file"
+                    id="avatarUpload"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    ref={fileInputRef}
+                  />
+                  <EditButton htmlFor="avatarUpload">
+                    <EditIcon />
+                  </EditButton>
+                </AvatarWrapper>
+              </ProfileSection>
 
                   <FormGrid>
                     <Field>
