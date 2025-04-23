@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FiSearch, FiMenu } from "react-icons/fi";
 import { fetchUserInfo } from "../api/mockApi";
-import { ReactComponent as HeaderSettingsIcon } from "../assets/icons/headerSettingsIcon.svg"; // Optional: replace with your actual settings icon SVG
+
+
+import { ReactComponent as HeaderSettingsIcon } from "../assets/icons/headerSettingsIcon.svg"; 
 import { ReactComponent as HeaderNotificationIcon } from "../assets/icons/headerNotificationIcon.svg";
 
 const HeaderContainer = styled.header`
@@ -106,6 +109,7 @@ const Hamburger = styled(FiMenu)`
 
 const Header = ({ title = "Overview", onMenuClick }) => {
   const [user, setUser] = useState({ name: "", profileImage: "" });
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserInfo().then((data) => setUser(data));
@@ -122,7 +126,7 @@ const Header = ({ title = "Overview", onMenuClick }) => {
           <FiSearch />
           <input type="text" placeholder="Search for something" />
         </SearchBar>
-        <IconButton>
+        <IconButton onClick={() => navigate("/settings")}>
           <HeaderSettingsIcon />
         </IconButton>
         <IconButton>
