@@ -1,4 +1,32 @@
 // src/api/mockApi.js
+import userData from "../data/user.json";
+let mockUser = { ...userData }; // Simulates a database in memory
+const API_URL = "http://localhost:5000/user";
+
+export const fetchUserProfileInfo = async () => {
+    const res = await fetch(API_URL);
+    return res.json();
+  };
+  
+  export const updateUserProfileInfo = async (data) => {
+    const res = await fetch(API_URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  };
+
+  export const updateUserInfo = (updatedUser) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        mockUser = { ...mockUser, ...updatedUser };
+        resolve(mockUser);
+      }, 300);
+    });
+  };
 
 export const fetchUserInfo = () =>
     new Promise((resolve) =>
@@ -137,6 +165,7 @@ export const fetchUserInfo = () =>
           expense: {
             labels: ["Entertainment", "Bills", "Investment", "Others"],
             data: [30, 15, 20, 35],
+           
           },
           balance: [200, 400, 300, 700, 350, 500, 650],
         });

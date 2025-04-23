@@ -1,14 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   ArcElement,
   Tooltip,
-  Legend,
 } from "chart.js";
 import styled from "styled-components";
+import { fetchChartData } from "../api/mockApi"; 
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip);
+
 
 const ChartCard = styled.div`
   background: #fff;
@@ -22,7 +23,7 @@ const ChartCard = styled.div`
 
 const ChartWrapper = styled.div`
   position: relative;
-  height: 360px;
+  height: 280px;
 
   canvas {
     max-width: 100% !important;
@@ -32,48 +33,40 @@ const ChartWrapper = styled.div`
 
 const ExpensePieChart = () => {
   const chartRef = useRef();
+  const [expenseLabels, setExpenseLabels] = useState([]);
+  const [expenseValues, setExpenseValues] = useState([]);
 
-  const labels = ["Entertainment", "Bill Expense", "Investment", "Others"];
-  const values = [30, 15, 20, 35];
+  useEffect(() => {
+    fetchChartData().then((data) => {
+      setExpenseLabels(data.expense.labels);
+      setExpenseValues(data.expense.data);
+    });
+  }, []);
+
   const backgroundColors = ["#2C2F5A", "#F38D3E", "#3E68FF", "#1C1C1C"];
+  const offsets = [0, 30, 0, 20];
 
   const data = {
-    labels,
+    labels: expenseLabels,
     datasets: [
       {
-        data: values,
+        data: expenseValues,
         backgroundColor: backgroundColors,
         borderColor: "#fff",
         borderWidth: 6,
-        offset: [0, 0, 0, 0], // Pull out specific slices
-        segment: {
-            // Dynamically return radius per slice
-            radius: (ctx) => {
-              const radii = [100, 120, 80, 110]; // custom radii for each slice
-              return radii[ctx.index];
-            }
-          }
+        offset: offsets,
       },
     ],
   };
 
   const options = {
     responsive: true,
+    rotation: -0.5 * Math.PI, // Rotate 90 degrees to the left
     maintainAspectRatio: false,
-    animation: {
-      animateRotate: true,
-      duration: 1000,
-    },
     plugins: {
-      legend: {
-        display: false,
-      },
+      legend: { display: false },
       tooltip: {
-        callbacks: {
-          label: function (context) {
-            return `${context.label}: ${context.parsed}%`;
-          },
-        },
+        enabled: false,
       },
     },
   };
@@ -83,34 +76,36 @@ const ExpensePieChart = () => {
     afterDraw(chart) {
       const { ctx } = chart;
       const meta = chart.getDatasetMeta(0);
-      if (!meta || !meta.data || meta.data.length === 0) return;
-
+      const dataset = chart.data.datasets[0];
+      const labels = chart.data.labels;
+  
+      if (!meta || !meta.data || !meta.data.length) return;
+  
       ctx.save();
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-
+  
       meta.data.forEach((arc, i) => {
-        const model = arc;
-        const angle = (model.startAngle + model.endAngle) / 2;
+        const angle = (arc.startAngle + arc.endAngle) / 2;
         const radius = arc.outerRadius || 100;
         const x = arc.x + Math.cos(angle) * (radius / 1.5);
         const y = arc.y + Math.sin(angle) * (radius / 1.5);
-
-        // Percentage label
+  
+        // Draw percentage
         ctx.fillStyle = "#ffffff";
         ctx.font = "bold 13px Inter, sans-serif";
-        ctx.fillText(`${values[i]}%`, x, y - 8);
-
-        // Category name
+        ctx.fillText(`${dataset.data[i]}%`, x, y - 8);
+  
+        // Draw label
         ctx.fillStyle = "#dddddd";
         ctx.font = "11px Inter, sans-serif";
         ctx.fillText(labels[i], x, y + 10);
       });
-
+  
       ctx.restore();
     },
   };
-
+  
   useEffect(() => {
     if (!ChartJS.registry.plugins.get("centerTextPlugin")) {
       ChartJS.register(centerTextPlugin);

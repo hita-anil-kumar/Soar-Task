@@ -71,28 +71,58 @@ top: 31px;
 
 const Nav = styled.ul`
   list-style: none;
-  padding: 2rem 1rem 0rem 2rem;
+  padding: 2rem 1rem 0rem 0rem;
   margin: 0;
 `;
 
+// const NavItem = styled.li`
+//   display: flex;
+//   align-items: center;
+//   gap: 1rem;
+//   padding: 0.8rem 1rem;
+//   margin-bottom: 0.5rem;
+//   border-radius: 8px;
+//   font-size: 18px;
+//   line-height: 22px;
+//   color: ${({ $active }) => ($active ? "#232323;" : "#b1b1b1")};
+//   font-weight: 500;
+//   cursor: pointer;
+//   transition: all 0.2s ease;
+
+//   svg {
+//     width: 20px;
+//     height: 20px;
+//     fill: ${({ $active }) => ($active ? "#232323;" : "#999")};
+//   }
+
+//   &:hover {
+//     background: #f0f4ff;
+//     color: #232323;
+
+//     svg {
+//       fill: #232323;
+//     }
+//   }
+// `;
 const NavItem = styled.li`
+  position: relative;
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 1rem 0.8rem 1.5rem;
   margin-bottom: 0.5rem;
   border-radius: 8px;
   font-size: 18px;
   line-height: 22px;
-  color: ${({ $active }) => ($active ? "#232323;" : "#b1b1b1")};
+  color: ${({ $active }) => ($active ? "#232323" : "#b1b1b1")};
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-
+  
   svg {
     width: 20px;
     height: 20px;
-    fill: ${({ $active }) => ($active ? "#232323;" : "#999")};
+    fill: ${({ $active }) => ($active ? "#232323" : "#999")};
   }
 
   &:hover {
@@ -102,6 +132,16 @@ const NavItem = styled.li`
     svg {
       fill: #232323;
     }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;  
+    width: 6px;
+    height: 40px;
+    border-radius: 2px;
+    background-color: ${({ $active }) => ($active ? "#232323" : "transparent")};
   }
 `;
 

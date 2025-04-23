@@ -1,9 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { fetchUserInfo } from "../api/mockApi";
 import { ReactComponent as EditIcon } from "../assets/icons/edit-pencil.svg";
+import ArrowDownIcon from "../assets/icons/arrow-down.svg";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import { UserContext } from '../context/UserContext';
+
+
+
 
 
 const Layout = styled.div`
@@ -15,7 +22,6 @@ const SidebarWrapper = styled.div`
     width: 250px;
     background-color: #fff;
     border-right: 1px solid #e0e0e0;
-    overflow-y: auto;
   }
 `;
 
@@ -29,10 +35,6 @@ const Container = styled.div`
   padding: 2rem;
   max-width: 1100px;
   margin: 0 auto;
-
-  @media (max-width: 768px) {
-    padding: 1rem;
-  }
 `;
 
 const Card = styled.div`
@@ -47,7 +49,6 @@ const Tabs = styled.div`
   gap: 2rem;
   border-bottom: 1px solid #ddd;
   margin-bottom: 2rem;
-  flex-wrap: wrap;
 `;
 
 const Tab = styled.button`
@@ -57,7 +58,7 @@ const Tab = styled.button`
   font-weight: 500;
   padding-bottom: 0.5rem;
   border-bottom: ${({ active }) => (active ? "2px solid #000" : "none")};
-  color: ${({ active }) => (active ? "#000" : "#999")};
+  color: ${({ active }) => (active ? "#000" : "#718EBF")};
   cursor: pointer;
 `;
 
@@ -73,9 +74,8 @@ const FormLayout = styled.div`
 
 const ProfileSection = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
 `;
 
 const AvatarWrapper = styled.div`
@@ -89,8 +89,6 @@ const Avatar = styled.img`
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #fff;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 `;
 
 const UploadInput = styled.input`
@@ -105,19 +103,11 @@ const EditButton = styled.label`
   border-radius: 50%;
   padding: 6px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   svg {
     width: 14px;
     height: 14px;
   }
-`;
-
-
-const HiddenInput = styled.input`
-  display: none;
 `;
 
 const FormGrid = styled.div`
@@ -146,71 +136,81 @@ const Input = styled.input`
   padding: 0.8rem 1rem;
   border: 1px solid #ddd;
   border-radius: 10px;
-  background: #f9f9f9;
+  background: #fff;
   font-size: 0.95rem;
- color: #718EBF;
+  color: #718EBF;
+
+  &::placeholder {
+    color: #718EBF;
+  }
+
+  &[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 2.5rem;
+    background: url(${ArrowDownIcon}) no-repeat right 1rem center;
+    background-size: 16px;
+    cursor: pointer;
+  }
 `;
 
 const SaveWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 2rem;
-
-  @media (max-width: 768px) {
-    justify-content: center;
-  }
 `;
 
 const SaveButton = styled.button`
 
   background: #232323;
+  width: 190px;
+  height: 50px;
   color: #fff;
   border: none;
   padding: 0.8rem 2rem;
   font-size: 1rem;
   border-radius: 10px;
   cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  width: 190px;
-  &:hover {
-    background-color: #2e5ce6;
-  }
+`;
 
-  &:active {
-    transform: scale(0.96);
+
+const DatePickerInput = styled(DatePicker)`
+  width: 100%;
+  padding: 0.8rem 2.5rem 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff url(${ArrowDownIcon}) no-repeat right 1rem center;
+  background-size: 16px;
+  font-size: 0.95rem;
+  color: #718EBF;
+  appearance: none;
+  cursor: pointer;
+
+  &::placeholder {
+    color: #718EBF;
   }
 `;
 
 const Settings = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
-  const [user, setUser] = useState({});
-  const [formData, setFormData] = useState({});
-  const [profileImage, setProfileImage] = useState("");
   const fileInputRef = useRef();
+  const { user, setUser } = useContext(UserContext);
+  const [formData, setFormData] = useState({});
+ 
 
   useEffect(() => {
     fetchUserInfo().then((data) => {
-      setUser(data);
-      setProfileImage(data.profileImage || "https://i.pravatar.cc/100");
-      setFormData({
-        name: data.name,
-        username: data.name,
-        email: data.email,
-        password: "**********",
-        dob: "25 January 1990",
-        present: "San Jose, California, USA",
-        permanent: "San Jose, California, USA",
-        city: "San Jose",
-        postal: "45962",
-        country: "USA",
-      });
+      const stored = JSON.parse(localStorage.getItem("userProfile")) || data;
+      setUser(stored);
+      setFormData({ ...stored });
     });
-  }, []);
+  }, [setUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "email" && value && !value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) return;
+    if (name === "password" && value && value.length < 6) return;
     setFormData({ ...formData, [name]: value });
   };
 
@@ -218,13 +218,19 @@ const Settings = () => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => setProfileImage(reader.result);
+      reader.onload = () => {
+        const updated = { ...formData, profileImage: reader.result };
+        setUser(updated);
+        setFormData(updated);
+        localStorage.setItem("userProfile", JSON.stringify(updated));
+      };
       reader.readAsDataURL(file);
     }
   };
 
   const handleSave = () => {
-    console.log("Saved Data:", formData);
+    setUser(formData);
+    localStorage.setItem("userProfile", JSON.stringify(formData));
     alert("Changes saved successfully!");
   };
 
@@ -248,69 +254,66 @@ const Settings = () => {
                 <FormLayout>
                 <ProfileSection>
                 <AvatarWrapper>
-                  <Avatar src={user.profileImage || "https://i.pravatar.cc/100"} alt="User" />
+                  <Avatar src={formData.profileImage || "https://i.pravatar.cc/100"} alt="User" />
                   <UploadInput
                     type="file"
                     id="avatarUpload"
                     accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                          setUser((prev) => ({ ...prev, profileImage: reader.result }));
-                        };
-                        reader.readAsDataURL(file);
-                      }
-                    }}
+                    onChange={handleImageChange}
+                    ref={fileInputRef}
                   />
                   <EditButton htmlFor="avatarUpload">
                     <EditIcon />
                   </EditButton>
                 </AvatarWrapper>
               </ProfileSection>
-              
 
                   <FormGrid>
                     <Field>
                       <Label>Your Name</Label>
-                      <Input name="name" value={formData.name || ""} onChange={handleChange} />
+                      <Input name="name" placeholder="Charlene Reed" value={formData.name} onChange={handleChange} />
                     </Field>
                     <Field>
                       <Label>User Name</Label>
-                      <Input name="username" value={formData.username || ""} onChange={handleChange} />
+                      <Input name="username" placeholder="Charlene Reed" value={formData.username} onChange={handleChange} />
                     </Field>
                     <Field>
                       <Label>Email</Label>
-                      <Input name="email" type="email" value={formData.email || ""} onChange={handleChange} />
+                      <Input name="email" type="email" placeholder="charlenereed@gmail.com" value={formData.email} onChange={handleChange} />
                     </Field>
                     <Field>
                       <Label>Password</Label>
-                      <Input name="password" type="password" value={formData.password || ""} onChange={handleChange} />
+                      <Input name="password" type="password" placeholder="**********" value={formData.password} onChange={handleChange} />
                     </Field>
                     <Field>
-                      <Label>Date of Birth</Label>
-                      <Input name="dob" value={formData.dob || ""} onChange={handleChange} />
-                    </Field>
+  <Label>Date of Birth</Label>
+  <DatePickerInput
+    selected={formData.dob ? new Date(formData.dob) : null}
+    onChange={(date) => setFormData({ ...formData, dob: date })}
+    placeholderText="25 January 1990"
+    dateFormat="dd MMMM yyyy"
+    showPopperArrow={false}
+  />
+</Field>
                     <Field>
                       <Label>Present Address</Label>
-                      <Input name="present" value={formData.present || ""} onChange={handleChange} />
+                      <Input name="present" placeholder="San Jose, California, USA" value={formData.present} onChange={handleChange} />
                     </Field>
                     <Field>
                       <Label>Permanent Address</Label>
-                      <Input name="permanent" value={formData.permanent || ""} onChange={handleChange} />
+                      <Input name="permanent" placeholder="San Jose, California, USA" value={formData.permanent} onChange={handleChange} />
                     </Field>
                     <Field>
                       <Label>City</Label>
-                      <Input name="city" value={formData.city || ""} onChange={handleChange} />
+                      <Input name="city" placeholder="San Jose" value={formData.city} onChange={handleChange} />
                     </Field>
                     <Field>
                       <Label>Postal Code</Label>
-                      <Input name="postal" value={formData.postal || ""} onChange={handleChange} />
+                      <Input name="postal" placeholder="45962" value={formData.postal} onChange={handleChange} />
                     </Field>
                     <Field>
                       <Label>Country</Label>
-                      <Input name="country" value={formData.country || ""} onChange={handleChange} />
+                      <Input name="country" placeholder="USA" value={formData.country} onChange={handleChange} />
                     </Field>
                   </FormGrid>
                 </FormLayout>
@@ -321,7 +324,9 @@ const Settings = () => {
               </>
             )}
 
-            {activeTab !== "profile" && <p style={{ textAlign: "center", padding: "2rem" }}>Coming soon...</p>}
+            {activeTab !== "profile" && (
+              <p style={{ textAlign: "center", padding: "2rem" }}>Coming soon...</p>
+            )}
           </Card>
         </Container>
       </Content>
