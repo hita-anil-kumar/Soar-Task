@@ -21,7 +21,7 @@ ChartJS.register(
   Filler
 );
 
-// Rounded card container
+
 const ChartCard = styled.div`
   background: #ffffff;
   border-radius: 24px;
@@ -42,7 +42,6 @@ const ChartCard = styled.div`
   }
 `;
 
-// Chart container
 const ChartWrapper = styled.div`
   width: 100%;
   height: 180px;
@@ -51,9 +50,7 @@ const ChartWrapper = styled.div`
     height: 160px;
     padding: 1rem;
     max-width: 25rem;
-   
   }
-
   canvas {
     width: 100%;
     height: auto;

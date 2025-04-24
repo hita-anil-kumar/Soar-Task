@@ -64,7 +64,7 @@ const ExpensePieChart = () => {
 
   const options = {
     responsive: true,
-    rotation: -0.5 * Math.PI, // Rotate 90 degrees to the left
+    rotation: -0.5 * Math.PI, 
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
@@ -94,12 +94,12 @@ const ExpensePieChart = () => {
         const x = arc.x + Math.cos(angle) * (radius / 1.5);
         const y = arc.y + Math.sin(angle) * (radius / 1.5);
   
-        // Draw percentage
+
         ctx.fillStyle = "#ffffff";
         ctx.font = "bold 13px Inter, sans-serif";
         ctx.fillText(`${dataset.data[i]}%`, x, y - 8);
   
-        // Draw label
+
         ctx.fillStyle = "#dddddd";
         ctx.font = "11px Inter, sans-serif";
         ctx.fillText(labels[i], x, y + 10);
@@ -113,7 +113,7 @@ const ExpensePieChart = () => {
     if (!ChartJS.registry.plugins.get("centerTextPlugin")) {
       ChartJS.register(centerTextPlugin);
     }
-  }, []);
+  });
 
   return (
     <ChartCard>
