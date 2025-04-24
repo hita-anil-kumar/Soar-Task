@@ -8,7 +8,7 @@ const CardsWrapper = styled.div`
   gap: 1rem;
   overflow-x: auto;
 
-  @media (max-width: 768px) {
+  @media (max-width: 816px) {
     padding-bottom: 1rem;
   }
 `;

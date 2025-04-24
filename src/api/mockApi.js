@@ -43,54 +43,46 @@ export const fetchUserInfo = () =>
     new Promise((resolve) =>
       setTimeout(() => {
         resolve([
-          {
-            id: 1,          
-            name: "Eddy Cusuma",
-            expiry: "12/22",
-            number: "3778 **** **** 1234",
-            balance: "$5,756",
-            dark: true,
-          },
-          {
-            id: 2,           
-            name: "Eddy Cusuma",
-            expiry: "12/22",
-            number: "3778 **** **** 1234",
-            balance: "$5,756",
-            dark: false,
-          },
-          {
-            id: 3,            
-            name: "charlie Cusuma",
-            expiry: "12/22",
-            number: "3778 **** **** 1234",
-            balance: "$5,756",
-            dark: true,
-          },
-          {
-            id: 4,            
-            name: "charlie Cusuma",
-            expiry: "12/22",
-            number: "3778 **** **** 1234",
-            balance: "$5,756",
-            dark: false,
-          },
-          {
-            id: 5,            
-            name: "charlie Cusuma",
-            expiry: "12/22",
-            number: "3778 **** **** 1234",
-            balance: "$5,756",
-            dark: true,
-          },
-          {
-            id: 6,            
-            name: "charlie Cusuma",
-            expiry: "12/22",
-            number: "3778 **** **** 1234",
-            balance: "$5,756",
-            dark: false,
-          },
+            {
+                id: 1,
+                name: "Eddy Cusuma",
+                expiry: "12/22",
+                number: "3778 **** **** 1234",
+                balance: "$5,756",
+                dark: true,
+              },
+              {
+                id: 2,
+                name: "Jessica Pearson",
+                expiry: "05/24",
+                number: "4485 **** **** 9876",
+                balance: "$3,245",
+                dark: false,
+              },
+              {
+                id: 3,
+                name: "Harvey Specter",
+                expiry: "09/25",
+                number: "5531 **** **** 4321",
+                balance: "$12,903",
+                dark: true,
+              },
+              {
+                id: 4,
+                name: "Rachel Zane",
+                expiry: "03/23",
+                number: "6011 **** **** 7645",
+                balance: "$8,120",
+                dark: false,
+              },
+              {
+                id: 5,
+                name: "Louis Litt",
+                expiry: "11/24",
+                number: "5105 **** **** 3322",
+                balance: "$2,870",
+                dark: true,
+              }
         ]);
       }, 500)
     );
@@ -99,13 +91,11 @@ export const fetchUserInfo = () =>
         new Promise((resolve) =>
           setTimeout(() => {
             resolve([
-                { name: "Livia Bator", role: "CEO", img: "https://i.pravatar.cc/150?img=32" },
-                { name: "Randy Press", role: "Director", img: "https://i.pravatar.cc/150?img=12" },
-                { name: "Workman", role: "Designer", img: "https://i.pravatar.cc/150?img=5" },
-                { name: "Workwoman", role: "Designer", img: "https://i.pravatar.cc/150?img=5" },
-                { name: "Livia Bator", role: "CEO", img: "https://i.pravatar.cc/150?img=32" },
-                { name: "Randy Press", role: "Director", img: "https://i.pravatar.cc/150?img=12" },
-                { name: "Workman", role: "Designer", img: "https://i.pravatar.cc/150?img=5" },
+                { name: "Livia Bator", role: "CEO",img: "https://i.pravatar.cc/150?img=32" },
+                { name: "Marcus Chen", role: "Product Manager",img: "https://i.pravatar.cc/150?img=12" },
+                { name: "Sophie Dubois", role: "UX Designer" ,img: "https://i.pravatar.cc/150?img=5" },
+                 { name: "Ethan Walker", role: "Software Engineer" ,img: "https://i.pravatar.cc/150?img=5" },
+                { name: "Aisha Rahman", role: "Data Analyst",img: "https://i.pravatar.cc/150?img=32" },
            
             ]);
           }, 500)
@@ -137,18 +127,18 @@ export const fetchUserInfo = () =>
             color: "green",
           },
           {
-            name: "Jemi Wilson",
-            date: "21 January 2021",
-            amount: "+$5,400",
-            icon: "user",
+            name: "Deposit Paypal",
+            date: "18 January 2021",
+            amount: "-$15",
+            icon: "card",
             color: "green",
           },
           {
-            name: "Jemi Wilson",
-            date: "21 January 2021",
-            amount: "+$5,400",
-            icon: "user",
-            color: "green",
+            name: "Deposit from my Card",
+            date: "15 January 2021",
+            amount: "+$1,200",
+            icon: "paypal",
+            color: "red",
           },
         ]);
       }, 500)

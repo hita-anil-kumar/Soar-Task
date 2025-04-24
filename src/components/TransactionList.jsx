@@ -11,8 +11,13 @@ const Container = styled.div`
   border-radius: 24px;
   padding: 1.2rem;
   display: flex;
+
   flex-direction: column;
-  
+    @media (max-width: 816px) {
+    padding: 1rem;
+    max-width: 25rem;
+   
+  }
 `;
 
 const ScrollContainer = styled.div`
@@ -52,18 +57,22 @@ const Item = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid #f0f0f0;
   }
-
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.4rem;
+    gap: 0.5rem;
   }
+  
 `;
 
 const Info = styled.div`
   display: flex;
   gap: 0.8rem;
   align-items: center;
+
+    @media (max-width: 816px) {
+    gap: 0.6rem;
+  }
 `;
 
 const IconBox = styled.div`
@@ -78,6 +87,11 @@ const IconBox = styled.div`
   svg {
     width: 50px;
     height: 50px;
+
+    @media (max-width: 816px) {
+      width: 20px;
+      height: 20px;
+    }
   }
 `;
 
@@ -104,6 +118,12 @@ const Amount = styled.p`
   font-weight: 400;
   margin: 0;
   color: ${({ color }) => color || "#232323"};
+
+
+  @media (max-width: 816px) {
+    align-self: flex-end;
+    font-size: 0.9rem;
+  }
 `;
 
 const iconMap = {

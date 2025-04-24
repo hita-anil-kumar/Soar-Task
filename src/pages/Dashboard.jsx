@@ -68,7 +68,6 @@ const SectionHeader = styled.div`
 
 const SeeAllButton = styled.button`
 
-
   background: none;
   border: none;
   color: #343C6A;
@@ -79,6 +78,7 @@ const SeeAllButton = styled.button`
   &:hover {
     text-decoration: underline;
   }
+    
 `;
 
 const Section = styled.div`
@@ -86,7 +86,7 @@ const Section = styled.div`
   flex-direction: column;
   gap: 1rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 816px) {
     gap: 0.75rem;
   }
 `;
@@ -119,7 +119,8 @@ const Dashboard = () => {
       </SidebarWrapper>
       <Content>
         <Header title="Overview" onMenuClick={() => setSidebarOpen(true)} />
-        <ContentArea>
+
+        <ContentArea>       
         <Section>
         <SectionHeader>
           <SectionTitle>My Cards</SectionTitle>
@@ -143,8 +144,6 @@ const Dashboard = () => {
             <SectionTitle>Expense Statistics</SectionTitle>
             <ExpensePieChart />
           </Section>
-
-
         </ContentArea>
 
             <SideBySideWrapper>

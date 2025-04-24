@@ -26,8 +26,8 @@ const ChartWrapper = styled.div`
   height: 280px;
 
   canvas {
-    max-width: 100% !important;
-    max-height: 100% !important;
+    max-width: 100% ;
+    max-height: 100% ;
   }
 `;
 
