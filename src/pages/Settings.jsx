@@ -10,9 +10,6 @@ import DatePicker from "react-datepicker";
 import { UserContext } from '../context/UserContext';
 
 
-
-
-
 const Layout = styled.div`
   display: flex;
 `;
