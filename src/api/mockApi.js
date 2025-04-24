@@ -1,4 +1,3 @@
-// src/api/mockApi.js
 import userData from "../data/user.json";
 let mockUser = { ...userData }; // Simulates a database in memory
 const API_URL = "http://localhost:5000/user";

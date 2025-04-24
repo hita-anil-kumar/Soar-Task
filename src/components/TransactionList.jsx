@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { fetchTransactions } from "../api/mockApi";
-
 import { ReactComponent as CreditCardIcon } from "../assets/icons/cardIcon.svg";
 import { ReactComponent as PaypalIcon } from "../assets/icons/paypalIcon.svg";
 import { ReactComponent as UserIcon } from "../assets/icons/userIcon.svg";
@@ -11,8 +10,8 @@ const Container = styled.div`
   border-radius: 24px;
   padding: 1.2rem;
   display: flex;
-
   flex-direction: column;
+  
     @media (max-width: 816px) {
     padding: 1rem;
     max-width: 25rem;
@@ -21,7 +20,7 @@ const Container = styled.div`
 `;
 
 const ScrollContainer = styled.div`
-  max-height: 218px; /* Approx height for 3 items */
+  max-height: 218px;
   overflow-y: auto;
   padding-right: 6px;
 
@@ -53,16 +52,15 @@ const Item = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0.3rem 0;
+  flex-wrap: wrap;
 
   &:not(:last-child) {
     border-bottom: 1px solid #f0f0f0;
   }
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+
+  @media (max-width: 816px) {
+    gap: 0.8rem;
   }
-  
 `;
 
 const Info = styled.div`
@@ -89,8 +87,8 @@ const IconBox = styled.div`
     height: 50px;
 
     @media (max-width: 816px) {
-      width: 20px;
-      height: 20px;
+      width: 50px;
+      height: 50px;
     }
   }
 `;
@@ -121,7 +119,6 @@ const Amount = styled.p`
 
 
   @media (max-width: 816px) {
-    align-self: flex-end;
     font-size: 0.9rem;
   }
 `;

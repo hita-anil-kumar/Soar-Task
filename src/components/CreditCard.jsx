@@ -112,14 +112,6 @@ const Toggle = styled.div`
   gap: 4px;
 `;
 
-const Dot = styled.div`
-  width: 30px;
-  height: 30px;
-  background: ${({ variant }) =>
-    variant === "dark" ? "rgba(255,255,255,0.5)" : "rgba(145, 153, 175, 0.5)"};
-  border-radius: 50%;
-`;
-
 const StyledChipDark = styled(ChipDark)`
   width: 26px;
   height: 26px;
@@ -134,7 +126,7 @@ const StyledChipLight = styled(ChipLight)`
   height: 26px;
 
   path {
-    fill: #2E2E2E; // Adjust if needed
+    fill: #2E2E2E;
   }
 `;
 
