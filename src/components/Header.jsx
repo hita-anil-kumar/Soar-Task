@@ -10,7 +10,6 @@ const HeaderContainer = styled.header`
   background: #fff;
   padding: 1.5rem 2rem;
   border-bottom: 1px solid #e0e0e0;
-
   @media (max-width: 816px) {
     padding: 1rem;
   }
@@ -42,10 +41,11 @@ const Center = styled.div`
   flex: 1;
   display: flex;
   justify-content: left;
-
+margin:0rem 0rem 0rem 0rem;
 
   @media (max-width: 816px) {
-    position: absolute;
+    position: relative;
+      justify-content: center;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -86,7 +86,7 @@ const ProfileImage = styled.img`
 
 
   @media (max-width: 816px) {
-    position: absolute;
+    position: relative;
     right: 2%;
     transform: translateX(-50%);
 `;
