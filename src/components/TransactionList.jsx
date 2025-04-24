@@ -12,7 +12,7 @@ const Container = styled.div`
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
-  border: 2px solid #ddd;
+  
 `;
 
 const ScrollContainer = styled.div`
