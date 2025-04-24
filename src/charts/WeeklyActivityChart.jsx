@@ -43,7 +43,7 @@ const fullyRoundedBarsPlugin = {
         const meta = chart.getDatasetMeta(datasetIndex);
         meta.data.forEach((bar, index) => {
           const { x, y, base, width } = bar;
-          const radius = Math.min(10, width / 2); // dynamic radius
+          const radius = Math.min(10, width / 2); 
   
           const top = Math.min(y, base);
           const bottom = Math.max(y, base);
@@ -66,7 +66,7 @@ const fullyRoundedBarsPlugin = {
         });
       });
   
-      return false; // prevent default bar drawing
+      return false; 
     },
   };
   
@@ -76,7 +76,7 @@ const LegendRow = styled.div`
   align-items: center;
   gap: 1.5rem;
   margin-bottom: 1rem;
-justify-content: right;
+ justify-content: right;
   span {
     display: flex;
     align-items: center;
