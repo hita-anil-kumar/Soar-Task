@@ -24,7 +24,7 @@ const ChartWrapper = styled.div`
   @media (max-width: 768px) {
     padding: 1.5rem;
     max-width: 25rem;
-    height: 240px; /* Smaller height for mobile */
+    height: 240px;
   }
 
   canvas {
@@ -33,50 +33,13 @@ const ChartWrapper = styled.div`
   }
 `;
 
-
-// Custom plugin to draw fully rounded bars
-const fullyRoundedBarsPlugin = {
-    id: "fullyRoundedBars",
-    beforeDatasetsDraw(chart) {
-      const { ctx } = chart;
-      chart.data.datasets.forEach((dataset, datasetIndex) => {
-        const meta = chart.getDatasetMeta(datasetIndex);
-        meta.data.forEach((bar, index) => {
-          const { x, y, base, width } = bar;
-          const radius = Math.min(10, width / 2); 
-  
-          const top = Math.min(y, base);
-          const bottom = Math.max(y, base);
-  
-          ctx.save();
-          ctx.beginPath();
-          ctx.fillStyle = dataset.backgroundColor;
-  
-          ctx.moveTo(x - width / 2, bottom - radius);
-          ctx.quadraticCurveTo(x - width / 2, bottom, x - width / 2 + radius, bottom);
-          ctx.lineTo(x + width / 2 - radius, bottom);
-          ctx.quadraticCurveTo(x + width / 2, bottom, x + width / 2, bottom - radius);
-          ctx.lineTo(x + width / 2, top + radius);
-          ctx.quadraticCurveTo(x + width / 2, top, x + width / 2 - radius, top);
-          ctx.lineTo(x - width / 2 + radius, top);
-          ctx.quadraticCurveTo(x - width / 2, top, x - width / 2, top + radius);
-          ctx.closePath();
-          ctx.fill();
-          ctx.restore();
-        });
-      });
-  
-      return false; 
-    },
-  };
-  
-
 const LegendRow = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
   margin-bottom: 1rem;
- justify-content: right;
+  justify-content: right;
+
   span {
     display: flex;
     align-items: center;
@@ -102,6 +65,41 @@ const LegendRow = styled.div`
   }
 `;
 
+// Rounded bars plugin
+const fullyRoundedBarsPlugin = {
+  id: "fullyRoundedBars",
+  beforeDatasetsDraw(chart) {
+    const { ctx } = chart;
+    chart.data.datasets.forEach((dataset, datasetIndex) => {
+      const meta = chart.getDatasetMeta(datasetIndex);
+      meta.data.forEach((bar, index) => {
+        const { x, y, base, width } = bar;
+        const radius = Math.min(10, width / 2);
+        const top = Math.min(y, base);
+        const bottom = Math.max(y, base);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.fillStyle = dataset.backgroundColor;
+
+        ctx.moveTo(x - width / 2, bottom - radius);
+        ctx.quadraticCurveTo(x - width / 2, bottom, x - width / 2 + radius, bottom);
+        ctx.lineTo(x + width / 2 - radius, bottom);
+        ctx.quadraticCurveTo(x + width / 2, bottom, x + width / 2, bottom - radius);
+        ctx.lineTo(x + width / 2, top + radius);
+        ctx.quadraticCurveTo(x + width / 2, top, x + width / 2 - radius, top);
+        ctx.lineTo(x - width / 2 + radius, top);
+        ctx.quadraticCurveTo(x - width / 2, top, x - width / 2, top + radius);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      });
+    });
+
+    return false;
+  },
+};
+
 const WeeklyActivityChart = () => {
   const [, setWeekly] = useState({ deposit: [], withdraw: [] });
 
@@ -111,7 +109,7 @@ const WeeklyActivityChart = () => {
     });
   }, []);
 
-const data = {
+  const data = {
     labels: ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
     datasets: [
       {
@@ -119,10 +117,10 @@ const data = {
         data: [200, 150, 180, 100, 250, 220, 180],
         backgroundColor: "#1e1e1e",
         borderRadius: 10,
-        barThickness: "flex", 
-        maxBarThickness: 10,  
-        categoryPercentage: 0.6, 
-        barPercentage: 0.5, 
+        barThickness: "flex",
+        maxBarThickness: 10,
+        categoryPercentage: 0.6,
+        barPercentage: 0.5,
       },
       {
         label: "Deposit",
@@ -130,21 +128,21 @@ const data = {
         backgroundColor: "#3f75fe",
         borderRadius: 10,
         barThickness: "flex",
-        maxBarThickness: 10, 
+        maxBarThickness: 10,
         categoryPercentage: 0.6,
         barPercentage: 0.5,
       },
     ],
   };
-  
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     layout: {
-        padding: {
-          bottom: 20,
-        },
+      padding: {
+        bottom: 20,
       },
+    },
     plugins: {
       legend: { display: false },
       tooltip: {
@@ -178,17 +176,19 @@ const data = {
       },
     },
   };
- 
+
   return (
-    <ChartWrapper style={{ height: 300 }}>
+    <ChartWrapper role="region" aria-labelledby="weekly-activity-chart-title">
+      <h3 id="weekly-activity-chart-title" style={{ fontSize: "1rem", marginBottom: "1rem", color: "#343c6a" }}>
+        Weekly Activity Chart
+      </h3>
       <LegendRow>
         <span className="deposit">Deposit</span>
         <span className="withdraw">Withdraw</span>
       </LegendRow>
-        <Bar data={data} options={options} plugins={[fullyRoundedBarsPlugin]} />
+      <Bar data={data} options={options} plugins={[fullyRoundedBarsPlugin]} aria-hidden="true" />
     </ChartWrapper>
   );
 };
 
 export default WeeklyActivityChart;
-

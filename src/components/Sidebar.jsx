@@ -29,17 +29,16 @@ const SidebarWrapper = styled.div`
     box-shadow: none;
   }
 `;
+
 const Brand = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
   font-style: normal;
   font-weight: 800;
   font-size: 1.2rem;
   line-height: 30px;
   color: #343c6a;
-
   padding: 2rem 2rem;
 
   svg {
@@ -49,7 +48,10 @@ const Brand = styled.div`
   }
 `;
 
-const Nav = styled.ul`
+const Nav = styled.ul.attrs({
+  role: "navigation",
+  "aria-label": "Main Navigation"
+})`
   list-style: none;
   padding: 1rem 1rem 0rem 0rem;
   margin: 0;
@@ -69,7 +71,7 @@ const NavItem = styled.li`
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  
+
   svg {
     width: 20px;
     height: 20px;
@@ -88,7 +90,7 @@ const NavItem = styled.li`
   &::before {
     content: '';
     position: absolute;
-    left: 0;  
+    left: 0;
     width: 6px;
     height: 40px;
     border-radius: 2px;
@@ -100,7 +102,7 @@ const Sidebar = ({ open, toggleSidebar }) => {
   const location = useLocation();
 
   const navItems = [
-    { to: "/", icon: <DashboardIcon/>, label: "Dashboard" },
+    { to: "/", icon: <DashboardIcon />, label: "Dashboard" },
     { to: "/transactions", icon: <TransactionsIcon />, label: "Transactions" },
     { to: "/accounts", icon: <AccountsIcon />, label: "Accounts" },
     { to: "/investments", icon: <InvestmentsIcon />, label: "Investments" },
@@ -112,17 +114,26 @@ const Sidebar = ({ open, toggleSidebar }) => {
   ];
 
   return (
-    <SidebarWrapper open={open}>
-   
-      <Brand>  <SoarTaskIcon/> Soar Task</Brand>
+    <SidebarWrapper open={open} aria-hidden={!open} role="complementary" aria-label="Sidebar">
+      <Brand>
+        <SoarTaskIcon aria-hidden="true" /> Soar Task
+      </Brand>
       <Nav>
-        {navItems.map(({ to, icon, label }) => (
-          <Link key={to} to={to} onClick={toggleSidebar} style={{ textDecoration: "none" }}>
-            <NavItem $active={location.pathname === to}>
-              {icon} {label}
-            </NavItem>
-          </Link>
-        ))}
+        {navItems.map(({ to, icon, label }) => {
+          const isActive = location.pathname === to;
+          return (
+            <Link
+              key={to}
+              to={to}
+              onClick={toggleSidebar}
+              style={{ textDecoration: "none" }}
+              aria-label={`Go to ${label}`}
+              aria-current={isActive ? "page" : undefined}
+            >
+              <NavItem $active={isActive}>{icon} {label}</NavItem>
+            </Link>
+          );
+        })}
       </Nav>
     </SidebarWrapper>
   );

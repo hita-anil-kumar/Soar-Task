@@ -45,14 +45,14 @@ const CloseBtn = styled.button`
 `;
 
 const CardListWrapper = styled.div`
-  padding: 2rem 2rem 2rem 2rem;
+  padding: 2rem;
   display: flex;
   flex-direction: row;
   gap: 1rem;
 `;
 
 const ScrollContainer = styled.div`
-  max-height: 100% ;
+  max-height: 100%;
   overflow-y: auto;
   padding-right: 6px;
 
@@ -76,25 +76,35 @@ const ScrollContainer = styled.div`
 const CardDrawer = ({ open, onClose, cards }) => {
   return (
     <>
-      <DrawerOverlay open={open} onClick={onClose} />
-      <Drawer open={open}>
-        <Header>
+      <DrawerOverlay open={open} onClick={onClose} aria-hidden="true" />
+      <Drawer
+        open={open}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="drawer-title"
+      >
+        <Header id="drawer-title">
           All Cards
-          <CloseBtn onClick={onClose}>✕</CloseBtn>
+          <CloseBtn
+            onClick={onClose}
+            aria-label="Close card drawer"
+          >
+            ✕
+          </CloseBtn>
         </Header>
-        <ScrollContainer>
-        <CardListWrapper>
-        {cards.map((card) => (
-            <CreditCard
-              key={card.id}
-              variant={card.dark ? "dark" : "light"}
-              name={card.name}
-              expiry={card.expiry}
-              number={card.number}
-              balance={card.balance}
-            />
-          ))}
-        </CardListWrapper>
+        <ScrollContainer role="region" aria-label="Card list">
+          <CardListWrapper>
+            {cards.map((card) => (
+              <CreditCard
+                key={card.id}
+                variant={card.dark ? "dark" : "light"}
+                name={card.name}
+                expiry={card.expiry}
+                number={card.number}
+                balance={card.balance}
+              />
+            ))}
+          </CardListWrapper>
         </ScrollContainer>
       </Drawer>
     </>
@@ -102,5 +112,3 @@ const CardDrawer = ({ open, onClose, cards }) => {
 };
 
 export default CardDrawer;
-
- 

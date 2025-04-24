@@ -10,6 +10,7 @@ const HeaderContainer = styled.header`
   background: #fff;
   padding: 1.5rem 2rem;
   border-bottom: 1px solid #e0e0e0;
+
   @media (max-width: 816px) {
     padding: 1rem;
   }
@@ -26,9 +27,8 @@ const BottomRow = styled.div`
   align-items: center;
 
   @media (max-width: 816px) {
-  display:block;
+    display: block;
   }
-   
 `;
 
 const Left = styled.div`
@@ -41,24 +41,25 @@ const Center = styled.div`
   flex: 1;
   display: flex;
   justify-content: left;
-margin:0rem 0rem 0rem 0rem;
 
   @media (max-width: 816px) {
     position: relative;
-      justify-content: center;
+    justify-content: center;
     left: 50%;
     transform: translateX(-50%);
   }
 `;
 
-const Right = styled.div`
+const Right = styled.nav`
   display: flex;
   align-items: center;
   gap: 1rem;
-
 `;
 
-const Hamburger = styled(FiMenu)`
+const Hamburger = styled(FiMenu).attrs({
+  'aria-label': 'Open menu',
+  role: 'button',
+})`
   font-size: 1.5rem;
   cursor: pointer;
 
@@ -78,20 +79,23 @@ const Title = styled.h2`
   }
 `;
 
-const ProfileImage = styled.img`
+const ProfileImage = styled.img.attrs(({ alt }) => ({
+  role: 'img',
+  'aria-label': `${alt}'s profile image`,
+}))`
   width: 38px;
   height: 38px;
   border-radius: 50%;
   object-fit: cover;
 
-
   @media (max-width: 816px) {
     position: relative;
     right: 2%;
     transform: translateX(-50%);
+  }
 `;
 
-const IconButton = styled.div`
+const IconButton = styled.button`
   background: #f5f8fe;
   border-radius: 50%;
   padding: 0.6rem;
@@ -99,6 +103,7 @@ const IconButton = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border: none;
 
   svg {
     width: 20px;
@@ -110,6 +115,7 @@ const IconButton = styled.div`
     display: none;
   }
 `;
+
 const SearchBar = styled.div`
   background: #f5f8fe;
   border-radius: 30px;
@@ -117,7 +123,6 @@ const SearchBar = styled.div`
   align-items: center;
   padding: 0.4rem 1rem;
   width: 100%;
- 
 
   input {
     border: none;
@@ -142,16 +147,15 @@ const SearchBar = styled.div`
     }
   }
 
- &.mobile {
-  display: none;
+  &.mobile {
+    display: none;
 
-  @media (max-width: 816px) {
-    display: flex;
-    width: 100%;
-    margin: 1rem 0rem 0rem 0rem;
-
+    @media (max-width: 816px) {
+      display: flex;
+      width: 100%;
+      margin: 1rem 0 0 0;
+    }
   }
-}
 `;
 
 const Header = ({ title = "Overview", onMenuClick }) => {
@@ -159,7 +163,7 @@ const Header = ({ title = "Overview", onMenuClick }) => {
   const { user } = useContext(UserContext);
 
   return (
-    <HeaderContainer>
+    <HeaderContainer role="banner" aria-label="Main Header">
       <TopRow>
         <Left>
           <Hamburger onClick={onMenuClick} />
@@ -169,15 +173,15 @@ const Header = ({ title = "Overview", onMenuClick }) => {
           <Title>{title}</Title>
         </Center>
 
-        <Right>
-          <SearchBar className="desktop">
-            <FiSearch />
-            <input type="text" placeholder="Search for something" />
+        <Right aria-label="Header actions">
+          <SearchBar className="desktop" role="search" aria-label="Search form">
+            <FiSearch aria-hidden="true" />
+            <input type="text" placeholder="Search for something" aria-label="Search input" />
           </SearchBar>
-          <IconButton onClick={() => navigate("/settings")}>
+          <IconButton onClick={() => navigate("/settings")} aria-label="Settings">
             <HeaderSettingsIcon />
           </IconButton>
-          <IconButton>
+          <IconButton aria-label="Notifications">
             <HeaderNotificationIcon />
           </IconButton>
           <ProfileImage
@@ -189,10 +193,10 @@ const Header = ({ title = "Overview", onMenuClick }) => {
 
       {/* Mobile search bar */}
       <BottomRow>
-      <SearchBar className="mobile">
-        <FiSearch />
-        <input type="text" placeholder="Search for something" />
-      </SearchBar>
+        <SearchBar className="mobile" role="search" aria-label="Search form">
+          <FiSearch aria-hidden="true" />
+          <input type="text" placeholder="Search for something" aria-label="Search input" />
+        </SearchBar>
       </BottomRow>
     </HeaderContainer>
   );

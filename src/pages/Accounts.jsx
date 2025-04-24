@@ -1,14 +1,15 @@
-import React, { useState} from "react";
+import React, { useState, Suspense } from "react";
 import styled from "styled-components";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 
+// Lazy load
+const Header = React.lazy(() => import("../components/Header"));
+const Sidebar = React.lazy(() => import("../components/Sidebar"));
 
 const Layout = styled.div`
   display: flex;
 `;
 
-const SidebarWrapper = styled.div`
+const SidebarWrapper = styled.nav`
   @media (min-width: 769px) {
     width: 250px;
     background-color: #fff;
@@ -16,13 +17,13 @@ const SidebarWrapper = styled.div`
   }
 `;
 
-const Content = styled.div`
+const Content = styled.main`
   flex: 1;
   background: #f4f7fe;
   min-height: 100vh;
 `;
 
-const Container = styled.div`
+const Container = styled.section`
   padding: 2rem;
   width: 100%;
   max-width: 1100px;
@@ -51,15 +52,21 @@ const Accounts = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <Layout>
-      <SidebarWrapper>
-        <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+    <Layout role="application" aria-label="Accounts Page Layout">
+      <SidebarWrapper aria-label="Sidebar Navigation">
+        <Suspense fallback={<div role="status" aria-live="polite">Loading Sidebar...</div>}>
+          <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+        </Suspense>
       </SidebarWrapper>
-      <Content>
-        <Header title="Account" onMenuClick={() => setSidebarOpen(true)} />
-        <Container>
-          <Card>
-           <h2>Coming Soon ....</h2>
+
+      <Content aria-label="Accounts Main Content">
+        <Suspense fallback={<div role="status" aria-live="polite">Loading Header...</div>}>
+          <Header title="Accounts" onMenuClick={() => setSidebarOpen(true)} />
+        </Suspense>
+
+        <Container aria-labelledby="accounts-heading">
+          <Card role="region" aria-labelledby="accounts-heading">
+            <h2 id="accounts-heading">Coming Soon...</h2>
           </Card>
         </Container>
       </Content>

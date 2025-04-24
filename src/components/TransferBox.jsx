@@ -63,7 +63,10 @@ const Role = styled.p`
     font-size: 0.7rem;
   }
 `;
-const ContactRow = styled.div`
+const ContactRow = styled.div.attrs(() => ({
+    role: "group",
+    "aria-label": "Transfer contacts carousel"
+  }))`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -91,7 +94,10 @@ const ScrollArea = styled.div`
   }
 `;
 
-const ArrowWrapper = styled.button`
+const ArrowWrapper = styled.button.attrs((props) => ({
+    "aria-label": props.rotate ? "Previous users" : "Next users",
+    title: props.rotate ? "Previous users" : "Next users"
+  }))`
   background: #f4f7fe;
   border: none;
   width: 40px;
@@ -134,7 +140,9 @@ const InputWrapper = styled.div`
   }
 `;
 
-const Label = styled.div`
+const Label = styled.label.attrs(() => ({
+    htmlFor: "amount-input"
+  }))`
   color: #718ebf;
   font-size: 1rem;
   font-weight: 400;
@@ -154,7 +162,10 @@ const InputRow = styled.div`
   gap: 0.5rem;
 `;
 
-const AmountInput = styled.input`
+const AmountInput = styled.input.attrs(() => ({
+    id: "amount-input",
+    "aria-label": "Amount to send"
+  }))`
   flex: 1;
   border: none;
   background: transparent;
@@ -167,7 +178,9 @@ const AmountInput = styled.input`
   }
 `;
 
-const SendButton = styled.button`
+const SendButton = styled.button.attrs(() => ({
+    "aria-label": "Send money"
+  }))`
   background: #1e1e1e;
   color: #fff;
   border: none;

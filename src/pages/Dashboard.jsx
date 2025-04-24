@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import styled from "styled-components";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
-import CardList from "../components/CardList";
-import TransactionList from "../components/TransactionList";
-import WeeklyActivityChart from "../charts/WeeklyActivityChart";
-import ExpensePieChart from "../charts/ExpensePieChart";
-import BalanceLineChart from "../charts/BalanceLineChart";
-import TransferBox from "../components/TransferBox";
-import CardDrawer from "../components/CardDrawer";
 import { fetchCards } from "../api/mockApi";
+
+// lazy load
+const Header = React.lazy(() => import("../components/Header"));
+const Sidebar = React.lazy(() => import("../components/Sidebar"));
+const CardList = React.lazy(() => import("../components/CardList"));
+const TransactionList = React.lazy(() => import("../components/TransactionList"));
+const WeeklyActivityChart = React.lazy(() => import("../charts/WeeklyActivityChart"));
+const ExpensePieChart = React.lazy(() => import("../charts/ExpensePieChart"));
+const BalanceLineChart = React.lazy(() => import("../charts/BalanceLineChart"));
+const TransferBox = React.lazy(() => import("../components/TransferBox"));
+const CardDrawer = React.lazy(() => import("../components/CardDrawer"));
 
 const Layout = styled.div`
   display: flex;
@@ -21,7 +23,7 @@ const Layout = styled.div`
   }
 `;
 
-const SidebarWrapper = styled.div`
+const SidebarWrapper = styled.nav`
   @media (min-width: 769px) {
     width: 250px;
     background-color: #fff;
@@ -33,14 +35,14 @@ const SidebarWrapper = styled.div`
   }
 `;
 
-const Content = styled.div`
+const Content = styled.main`
   flex: 1;
   background: #f9f9f9;
   min-height: 100vh;
   width: 100%;
 `;
 
-const ContentArea = styled.div`
+const ContentArea = styled.section`
   padding: 2rem;
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -58,7 +60,7 @@ const ContentArea = styled.div`
   }
 `;
 
-const SideBySideWrapper = styled.div`
+const SideBySideWrapper = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
@@ -70,7 +72,7 @@ const SideBySideWrapper = styled.div`
   }
 `;
 
-const SectionHeader = styled.div`
+const SectionHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -90,11 +92,12 @@ const SeeAllButton = styled.button`
     text-decoration: underline;
   }
 `;
-const Section = styled.div`
+
+const Section = styled.section`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 100%; /* Add this line */
+  width: 100%;
 
   @media (max-width: 816px) {
     gap: 0.75rem;
@@ -121,56 +124,70 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Layout>
-      <SidebarWrapper>
-        <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+    <Layout role="application" aria-label="Financial Dashboard">
+      <SidebarWrapper aria-label="Sidebar Navigation">
+        <Suspense fallback={<div role="status" aria-live="polite">Loading sidebar...</div>}>
+          <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+        </Suspense>
       </SidebarWrapper>
 
-      <Content>
-        <Header title="Overview" onMenuClick={() => setSidebarOpen(true)} />
+      <Content aria-label="Main Content Area">
+        <Suspense fallback={<div role="status" aria-live="polite">Loading header...</div>}>
+          <Header title="Overview" onMenuClick={() => setSidebarOpen(true)} />
+        </Suspense>
 
         <ContentArea>
-          <Section>
+          <Section aria-labelledby="my-cards-heading">
             <SectionHeader>
-              <SectionTitle>My Cards</SectionTitle>
+              <SectionTitle id="my-cards-heading">My Cards</SectionTitle>
               <SeeAllButton onClick={() => setDrawerOpen(true)}>See All</SeeAllButton>
             </SectionHeader>
-            <CardList cards={allCards} limit={2} />
+            <Suspense fallback={<div>Loading cards...</div>}>
+              <CardList cards={allCards} limit={2} />
+            </Suspense>
           </Section>
 
-          <Section>
-            <SectionTitle>Recent Transactions</SectionTitle>
-            <TransactionList />
+          <Section aria-labelledby="transactions-heading">
+            <SectionTitle id="transactions-heading">Recent Transactions</SectionTitle>
+            <Suspense fallback={<div>Loading transactions...</div>}>
+              <TransactionList />
+            </Suspense>
           </Section>
 
-          <Section>
-            <SectionTitle>Weekly Activity</SectionTitle>
-            <WeeklyActivityChart />
+          <Section aria-labelledby="weekly-heading">
+            <SectionTitle id="weekly-heading">Weekly Activity</SectionTitle>
+            <Suspense fallback={<div>Loading chart...</div>}>
+              <WeeklyActivityChart />
+            </Suspense>
           </Section>
 
-          <Section>
-            <SectionTitle>Expense Statistics</SectionTitle>
-            <ExpensePieChart />
+          <Section aria-labelledby="expenses-heading">
+            <SectionTitle id="expenses-heading">Expense Statistics</SectionTitle>
+            <Suspense fallback={<div>Loading pie chart...</div>}>
+              <ExpensePieChart />
+            </Suspense>
           </Section>
         </ContentArea>
 
         <SideBySideWrapper>
-          <Section>
-            <SectionTitle>Quick Transfer</SectionTitle>
-            <TransferBox />
+          <Section aria-labelledby="transfer-heading">
+            <SectionTitle id="transfer-heading">Quick Transfer</SectionTitle>
+            <Suspense fallback={<div>Loading transfer box...</div>}>
+              <TransferBox />
+            </Suspense>
           </Section>
 
-          <Section>
-            <SectionTitle>Balance History</SectionTitle>
-            <BalanceLineChart />
+          <Section aria-labelledby="balance-heading">
+            <SectionTitle id="balance-heading">Balance History</SectionTitle>
+            <Suspense fallback={<div>Loading balance chart...</div>}>
+              <BalanceLineChart />
+            </Suspense>
           </Section>
         </SideBySideWrapper>
 
-        <CardDrawer
-          open={drawerOpen}
-          onClose={() => setDrawerOpen(false)}
-          cards={allCards}
-        />
+        <Suspense fallback={null}>
+          <CardDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} cards={allCards} />
+        </Suspense>
       </Content>
     </Layout>
   );
