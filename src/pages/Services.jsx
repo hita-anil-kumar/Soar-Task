@@ -1,8 +1,9 @@
-
-import React, { useState} from "react";
+import React, { useState, Suspense} from "react";
 import styled from "styled-components";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
+//lazy load
+const Header = React.lazy(() => import("../components/Header"));
+const Sidebar = React.lazy(() => import("../components/Sidebar"));
+
 
 
 const Layout = styled.div`
@@ -54,10 +55,14 @@ const Services = () => {
   return (
     <Layout>
       <SidebarWrapper>
-        <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+       <Suspense fallback={<div>Loading...</div>}>
+             <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+             </Suspense>
       </SidebarWrapper>
       <Content>
-        <Header title="Services" onMenuClick={() => setSidebarOpen(true)} />
+        <Suspense fallback={<div>Loading...</div>}>
+              <Header title="Setting" onMenuClick={() => setSidebarOpen(true)} />
+              </Suspense>
         <Container>
           <Card>
            <h2>Coming Soon ....</h2>

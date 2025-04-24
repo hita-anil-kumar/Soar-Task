@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext , Suspense} from "react";
 import styled from "styled-components";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import { fetchUserInfo } from "../api/mockApi";
 import { ReactComponent as EditIcon } from "../assets/icons/edit-pencil.svg";
 import ArrowDownIcon from "../assets/icons/arrow-down.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { UserContext } from '../context/UserContext';
+
+//lazy load
+const Header = React.lazy(() => import("../components/Header"));
+const Sidebar = React.lazy(() => import("../components/Sidebar"));
 
 
 const Layout = styled.div`
@@ -267,10 +269,18 @@ const Settings = () => {
   return (
     <Layout>
       <SidebarWrapper>
-        <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+
+      <Suspense fallback={<div>Loading...</div>}>
+      <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+      </Suspense>
+       
       </SidebarWrapper>
       <Content>
-        <Header title="Setting" onMenuClick={() => setSidebarOpen(true)} />
+      <Suspense fallback={<div>Loading...</div>}>
+      <Header title="Setting" onMenuClick={() => setSidebarOpen(true)} />
+      </Suspense>
+
+        
         <Container>
           <Card>
             <Tabs>

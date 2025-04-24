@@ -1,7 +1,10 @@
 import React, { useState} from "react";
 import styled from "styled-components";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
+
+//lazy load
+const Header = React.lazy(() => import("../components/Header"));
+const Sidebar = React.lazy(() => import("../components/Sidebar"));
+
 
 
 const Layout = styled.div`

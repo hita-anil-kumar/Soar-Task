@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import styled from "styled-components";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
-import CardList from "../components/CardList";
-import TransactionList from "../components/TransactionList";
-import WeeklyActivityChart from "../charts/WeeklyActivityChart";
-import ExpensePieChart from "../charts/ExpensePieChart";
-import BalanceLineChart from "../charts/BalanceLineChart";
-import TransferBox from "../components/TransferBox";
-import CardDrawer from "../components/CardDrawer";
 import { fetchCards } from "../api/mockApi";
+//lazy load
+const Header = React.lazy(() => import("../components/Header"));
+const Sidebar = React.lazy(() => import("../components/Sidebar"));
+const CardList = React.lazy(() => import("../components/CardList"));
+const TransactionList = React.lazy(() => import("../components/TransactionList"));
+const WeeklyActivityChart = React.lazy(() => import("../charts/WeeklyActivityChart"));
+const ExpensePieChart = React.lazy(() => import("../charts/ExpensePieChart"));
+const BalanceLineChart = React.lazy(() => import("../charts/BalanceLineChart"));
+const TransferBox = React.lazy(() => import("../components/TransferBox"));
+const CardDrawer = React.lazy(() => import("../components/CardDrawer"));
+
 
 const Layout = styled.div`
   display: flex;
@@ -123,11 +125,18 @@ const Dashboard = () => {
   return (
     <Layout>
       <SidebarWrapper>
-        <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+
+<Suspense fallback={<div>Loading...</div>}>
+<Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+</Suspense>
+        
       </SidebarWrapper>
 
       <Content>
-        <Header title="Overview" onMenuClick={() => setSidebarOpen(true)} />
+      <Suspense fallback={<div>Loading...</div>}>
+      <Header title="Overview" onMenuClick={() => setSidebarOpen(true)} />
+      </Suspense>
+        
 
         <ContentArea>
           <Section>
