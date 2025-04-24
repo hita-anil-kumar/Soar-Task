@@ -67,7 +67,7 @@ soar-task/
 
 ## ✅ Assumptions
 
-- Data is fetched from mocked endpoints (using local `db.json`)
+- Data is fetched from mocked endpoints (using local `mockApi.js`)
 - Profile pictures are stored in `localStorage` during runtime
 - The layout prioritizes responsive behavior for screens >375px wide
 
