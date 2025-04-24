@@ -30,8 +30,13 @@ const Content = styled.div`
 
 const Container = styled.div`
   padding: 2rem;
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 `;
 
 const Card = styled.div`
@@ -39,6 +44,13 @@ const Card = styled.div`
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
 `;
 
 const Tabs = styled.div`
@@ -63,11 +75,14 @@ const FormLayout = styled.div`
   display: flex;
   gap: 2rem;
   align-items: flex-start;
+  justify-content: center;
 
   @media (max-width: 768px) {
     flex-direction: column;
+    align-items: center;
   }
 `;
+
 
 const ProfileSection = styled.div`
   display: flex;
@@ -112,24 +127,28 @@ const FormGrid = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   flex: 1;
+  width: 100%; /* Make sure it stretches */
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
 const Field = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%; // Ensure full width on all screens
 `;
+
 
 const Label = styled.label`
   font-size: 0.9rem;
   margin-bottom: 0.4rem;
   color: #555;
 `;
-
 const Input = styled.input`
+  width: 100%;
   padding: 0.8rem 1rem;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -155,20 +174,33 @@ const SaveWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 const SaveButton = styled.button`
-
   background: #232323;
-  width: 190px;
-  height: 50px;
   color: #fff;
   border: none;
   padding: 0.8rem 2rem;
   font-size: 1rem;
+  font-weight: 500;
   border-radius: 10px;
   cursor: pointer;
+  width: 190px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  &:hover {
+    background: #333;
+  }
 `;
+
 
 
 const DatePickerInput = styled(DatePicker)`

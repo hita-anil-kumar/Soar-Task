@@ -28,8 +28,7 @@ const ChartCard = styled.div`
   padding: 1.5rem 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
+
   height: 280px;
   display: flex;
   flex-direction: column;
@@ -39,6 +38,7 @@ const ChartCard = styled.div`
     max-width: 100%;
     padding: 1rem;
     height: 240px;
+    max-width: 25rem;
   }
 `;
 
@@ -49,11 +49,14 @@ const ChartWrapper = styled.div`
 
   @media (max-width: 768px) {
     height: 160px;
+    padding: 1rem;
+    max-width: 25rem;
+   
   }
 
   canvas {
-    width: 100% !important;
-    height: auto !important;
+    width: 100%;
+    height: auto;
   }
 `;
 

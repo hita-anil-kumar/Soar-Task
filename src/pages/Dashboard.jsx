@@ -90,16 +90,26 @@ const SeeAllButton = styled.button`
     text-decoration: underline;
   }
 `;
-
 const Section = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%; /* Add this line */
 
   @media (max-width: 816px) {
     gap: 0.75rem;
   }
 `;
+
+// const Section = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1rem;
+
+//   @media (max-width: 816px) {
+//     gap: 0.75rem;
+//   }
+// `;
 
 const SectionTitle = styled.h3`
   font-size: 1.3rem;

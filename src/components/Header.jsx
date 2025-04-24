@@ -154,47 +154,6 @@ const SearchBar = styled.div`
 }
 `;
 
-// const SearchBar = styled.div`
-//   background: #f5f8fe;
-//   border-radius: 30px;
-//   display: flex;
-//   align-items: center;
-//   padding: 0.4rem 1rem;
-//   max-width: 100%;
-
-//   input {
-//     border: none;
-//     background: transparent;
-//     padding: 0.4rem 0.5rem;
-//     font-size: 0.9rem;
-//     color: #7d8fb3;
-//     width: 100%;
-//     outline: none;
-//   }
-
-//   svg {
-//     color: #a5b4cb;
-//   }
-
-//   &.desktop {
-//     display: flex;
-
-//     @media (max-width: 816px) {
-//       display: none;
-//     }
-//   }
-
-//   &.mobile {
-//     display: none;
-//     width: 100%;
-//     margin-top: 1rem;
-//     @media (max-width: 816px) {
-//     right: 20%;
-//       display: flex;
-//     }
-//   }
-// `;
-
 const Header = ({ title = "Overview", onMenuClick }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);

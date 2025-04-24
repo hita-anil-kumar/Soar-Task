@@ -19,10 +19,17 @@ const ChartWrapper = styled.div`
   padding: 2rem;
   border-radius: 25px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  height: 300px;
 
   @media (max-width: 768px) {
     padding: 1.5rem;
- max-width: 25rem;
+    max-width: 25rem;
+    height: 240px; /* Smaller height for mobile */
+  }
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
   }
 `;
 
@@ -36,7 +43,8 @@ const fullyRoundedBarsPlugin = {
         const meta = chart.getDatasetMeta(datasetIndex);
         meta.data.forEach((bar, index) => {
           const { x, y, base, width } = bar;
-          const radius = 10;
+          const radius = Math.min(10, width / 2); // dynamic radius
+  
           const top = Math.min(y, base);
           const bottom = Math.max(y, base);
   
@@ -112,8 +120,9 @@ const data = {
         backgroundColor: "#1e1e1e",
         borderRadius: 10,
         barThickness: "flex", 
-        categoryPercentage: 0.6, // controls spacing between groups
-        barPercentage: 0.5, // makes individual bars thinner
+        maxBarThickness: 10,  
+        categoryPercentage: 0.6, 
+        barPercentage: 0.5, 
       },
       {
         label: "Deposit",
@@ -121,6 +130,7 @@ const data = {
         backgroundColor: "#3f75fe",
         borderRadius: 10,
         barThickness: "flex",
+        maxBarThickness: 10, 
         categoryPercentage: 0.6,
         barPercentage: 0.5,
       },
@@ -130,6 +140,11 @@ const data = {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    layout: {
+        padding: {
+          bottom: 20,
+        },
+      },
     plugins: {
       legend: { display: false },
       tooltip: {
