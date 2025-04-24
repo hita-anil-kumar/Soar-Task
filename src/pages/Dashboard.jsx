@@ -171,8 +171,3 @@ const Dashboard = () => {
 
 export default Dashboard;
  
-
-// <Section>
-// <SectionTitle>Balance History</SectionTitle>
-// <BalanceLineChart />
-// </Section>
