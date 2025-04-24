@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { ReactComponent as ChipLight } from "../assets/icons/cardChipWhiteIcon.svg"; // Replace with your actual SVG path
-import { ReactComponent as ChipDark } from "../assets/icons/cardChipBlackIcon.svg"; // Replace with your actual SVG path
-
+import { ReactComponent as ChipLight } from "../assets/icons/cardChipWhiteIcon.svg"; 
+import { ReactComponent as ChipDark } from "../assets/icons/cardChipBlackIcon.svg"; 
 import { ReactComponent as MastercardDark } from "../assets/icons/masterCardDark.svg";
 import { ReactComponent as MastercardLight } from "../assets/icons/masterCardLight.svg";
 

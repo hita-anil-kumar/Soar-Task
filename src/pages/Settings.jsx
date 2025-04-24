@@ -10,9 +10,6 @@ import DatePicker from "react-datepicker";
 import { UserContext } from '../context/UserContext';
 
 
-
-
-
 const Layout = styled.div`
   display: flex;
 `;
@@ -195,7 +192,7 @@ const Settings = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
   const fileInputRef = useRef();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const [formData, setFormData] = useState({});
  
 

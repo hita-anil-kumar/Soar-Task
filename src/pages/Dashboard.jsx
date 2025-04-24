@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
@@ -11,11 +11,14 @@ import TransferBox from "../components/TransferBox";
 import CardDrawer from "../components/CardDrawer";
 import { fetchCards } from "../api/mockApi";
 
-
-
 const Layout = styled.div`
   display: flex;
-  background-color: #F5F7FA;
+  background-color: #f5f7fa;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const SidebarWrapper = styled.div`
@@ -23,7 +26,10 @@ const SidebarWrapper = styled.div`
     width: 250px;
     background-color: #fff;
     border-right: 1px solid #e0e0e0;
-    overflow-y: auto;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -31,6 +37,7 @@ const Content = styled.div`
   flex: 1;
   background: #f9f9f9;
   min-height: 100vh;
+  width: 100%;
 `;
 
 const ContentArea = styled.div`
@@ -54,31 +61,34 @@ const ContentArea = styled.div`
 const SideBySideWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding: 0rem 2rem 2rem 2rem;
+  gap: 2rem;
+  padding: 0 2rem 2rem;
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
+    padding: 0 1rem 1.5rem;
   }
 `;
+
 const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 const SeeAllButton = styled.button`
-
   background: none;
   border: none;
-  color: #343C6A;
+  color: #343c6a;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-    line-height: 21px;
+  line-height: 21px;
+
   &:hover {
     text-decoration: underline;
   }
-    
 `;
 
 const Section = styled.div`
@@ -91,15 +101,13 @@ const Section = styled.div`
   }
 `;
 
-
-
 const SectionTitle = styled.h3`
   font-size: 1.3rem;
   font-weight: 550;
-  color: #343C6A;
+  color: #343c6a;
 
   @media (max-width: 768px) {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 `;
 
@@ -117,18 +125,18 @@ const Dashboard = () => {
       <SidebarWrapper>
         <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
       </SidebarWrapper>
+
       <Content>
         <Header title="Overview" onMenuClick={() => setSidebarOpen(true)} />
 
-        <ContentArea>       
-        <Section>
-        <SectionHeader>
-          <SectionTitle>My Cards</SectionTitle>
-          <SeeAllButton onClick={() => setDrawerOpen(true)}>See All</SeeAllButton>
-        </SectionHeader>
-        <CardList cards={allCards} limit={2}/>
-      </Section>
-      
+        <ContentArea>
+          <Section>
+            <SectionHeader>
+              <SectionTitle>My Cards</SectionTitle>
+              <SeeAllButton onClick={() => setDrawerOpen(true)}>See All</SeeAllButton>
+            </SectionHeader>
+            <CardList cards={allCards} limit={2} />
+          </Section>
 
           <Section>
             <SectionTitle>Recent Transactions</SectionTitle>
@@ -146,27 +154,26 @@ const Dashboard = () => {
           </Section>
         </ContentArea>
 
-            <SideBySideWrapper>
-    <Section>
-        <SectionTitle>Quick Transfer</SectionTitle>
-        <TransferBox />
-    </Section>
+        <SideBySideWrapper>
+          <Section>
+            <SectionTitle>Quick Transfer</SectionTitle>
+            <TransferBox />
+          </Section>
 
-    <Section>
-        <SectionTitle>Balance History</SectionTitle>
-        <BalanceLineChart />
-    </Section>
-    </SideBySideWrapper>
+          <Section>
+            <SectionTitle>Balance History</SectionTitle>
+            <BalanceLineChart />
+          </Section>
+        </SideBySideWrapper>
 
         <CardDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        cards={allCards}
-      />
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          cards={allCards}
+        />
       </Content>
     </Layout>
   );
 };
 
 export default Dashboard;
- 
