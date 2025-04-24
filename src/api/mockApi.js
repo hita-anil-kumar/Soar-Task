@@ -1,6 +1,7 @@
 import userData from "../data/user.json";
 let mockUser = { ...userData }; 
 const API_URL = "http://localhost:5000/user";
+ 
 
 export const fetchUserProfileInfo = async () => {
     const res = await fetch(API_URL);
@@ -109,35 +110,35 @@ export const fetchUserInfo = () =>
             date: "28 January 2021",
             amount: "-$850",
             icon: "card",
-            color: "red",
+            color: "#FF4B4A",
           },
           {
             name: "Deposit Paypal",
             date: "25 January 2021",
             amount: "+$2,500",
             icon: "paypal",
-            color: "green",
+            color: "#41D4A8",
           },
           {
             name: "Jemi Wilson",
             date: "21 January 2021",
             amount: "+$5,400",
             icon: "user",
-            color: "green",
+            color: "#41D4A8",
           },
           {
             name: "Deposit Paypal",
             date: "18 January 2021",
             amount: "-$15",
             icon: "card",
-            color: "green",
+            color: "#41D4A8",
           },
           {
             name: "Deposit from my Card",
             date: "15 January 2021",
             amount: "+$1,200",
             icon: "paypal",
-            color: "red",
+            color: "#FF4B4A",
           },
         ]);
       }, 500)
