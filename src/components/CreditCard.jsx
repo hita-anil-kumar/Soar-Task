@@ -14,6 +14,7 @@ const CardContainer = styled.div`
   border-radius: 25px;
  width: 350px;
  height: 235px;
+
   background: ${({ variant }) =>
     variant === "dark"
       ? "linear-gradient(107.38deg, #5B5A6F 2.61%, #000000 101.2%)"
@@ -26,6 +27,7 @@ const CardContainer = styled.div`
   justify-content: space-between;
   box-shadow: ${({ variant }) =>
     variant === "dark" ? "none" : "0 4px 10px rgba(0, 0, 0, 0.05)"};
+
 `;
 
 const TopRow = styled.div`
@@ -37,21 +39,12 @@ const TopRow = styled.div`
 const BalanceGroup = styled.div``;
 
 const Label = styled.div`
-/* Balance */
-
-
 width: 42px;
 height: 14px;
 left: 26px;
 top: 71px;
-
-
 font-style: normal;
-
 line-height: 14px;
-
-
-
   font-size: 12px;
   font-weight: 400;
   color: ${({ variant }) =>
@@ -59,8 +52,6 @@ line-height: 14px;
 `;
 
 const Balance = styled.div`
-
-
 font-style: normal;
 line-height: 24px;
 
@@ -73,6 +64,7 @@ const DetailsRow = styled.div`
   display: flex;
   justify-content: space-between;
    padding: 0rem 1.5rem 1.5rem 1.5rem;
+   
 `;
 
 

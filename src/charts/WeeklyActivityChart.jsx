@@ -22,6 +22,7 @@ const ChartWrapper = styled.div`
 
   @media (max-width: 768px) {
     padding: 1.5rem;
+ max-width: 25rem;
   }
 `;
 
