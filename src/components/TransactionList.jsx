@@ -12,7 +12,7 @@ const Container = styled.div`
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
-  
+  border: 2px solid #ddd;
 `;
 
 const ScrollContainer = styled.div`
@@ -53,7 +53,7 @@ const Item = styled.div`
     border-bottom: 1px solid #f0f0f0;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 816px) {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.4rem;
