@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# SOAR Financial Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, responsive financial dashboard built with **React.js** and **styled-components**. It features interactive charts, a user settings panel, transaction history, and card management.
 
-## Available Scripts
+## 🔧 Setup Instructions
 
-In the project directory, you can run:
+1. **Clone the repository**:
 
-### `npm start`
+   ```bash
+   git clone https://github.com/hita-anil-kumar/Soar-Task.git
+   cd soar-task
+   ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. **Install dependencies**:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+   ```bash
+   npm install
+   ```
 
-### `npm test`
+3. **Start the development server**:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   npm start
+   ```
 
-### `npm run build`
+   Open your browser at [http://localhost:3000](http://localhost:3000).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. **Optional: Start JSON server** for mock API:
+   ```bash
+   npm install -g json-server
+   json-server --watch db.json --port 3001
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📁 Folder Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+soar-task/
+├── public/
+├── src/
+│   ├── api/                # Mock API calls
+│   ├── assets/             # Icons and images
+│   ├── charts/             # Chart components (Line, Pie, Bar)
+│   ├── components/         # Reusable components (Sidebar, Header, etc.)
+│   ├── context/            # UserContext for global state
+│   ├── pages/              # Page views like Dashboard and Settings
+│   ├── App.jsx             # Root component
+│   └── index.js            # App entry point
+```
 
-### `npm run eject`
+## 🚀 Features
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Interactive dashboard layout
+- User profile with editable settings
+- Line, bar, and pie charts using Chart.js
+- SVG icon system
+- Mock API simulation via JSON Server
+- Mobile responsive layout
+- Sidebar drawer for smaller screens
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## ⚙️ Tech Stack
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- React
+- styled-components
+- Chart.js
+- React Router DOM
+- JSON Server (mock API)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## ✅ Assumptions
 
-## Learn More
+- Data is fetched from mocked endpoints (using local `mockApi.js`)
+- Profile pictures are stored in `localStorage` during runtime
+- The layout prioritizes responsive behavior for screens >375px wide
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📄 License
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This project is licensed under the MIT License.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Built with 💙 by Hita
