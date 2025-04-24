@@ -69,6 +69,7 @@ const Tab = styled.button`
   border-bottom: ${({ active }) => (active ? "2px solid #000" : "none")};
   color: ${({ active }) => (active ? "#000" : "#718EBF")};
   cursor: pointer;
+  white-space: nowrap; // 🚀 Prevents line breaks
 `;
 
 const FormLayout = styled.div`
