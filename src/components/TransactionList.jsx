@@ -5,7 +5,10 @@ import { ReactComponent as CreditCardIcon } from "../assets/icons/cardIcon.svg";
 import { ReactComponent as PaypalIcon } from "../assets/icons/paypalIcon.svg";
 import { ReactComponent as UserIcon } from "../assets/icons/userIcon.svg";
 
-const Container = styled.div`
+const Container = styled.div.attrs(() => ({
+    role: "region",
+    "aria-label": "Recent transactions list"
+  }))`
   background: white;
   border-radius: 24px;
   padding: 1.2rem;
@@ -41,13 +44,17 @@ const ScrollContainer = styled.div`
   }
 `;
 
-const ListWrapper = styled.div`
+const ListWrapper = styled.div.attrs(() => ({
+    role: "list"
+  }))`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 `;
 
-const Item = styled.div`
+const Item = styled.div.attrs(() => ({
+    role: "listitem"
+  }))`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -111,7 +118,9 @@ const Date = styled.p`
   margin: 0.3rem 0 0;
 `;
 
-const Amount = styled.p`
+const Amount = styled.p.attrs(({ color, children }) => ({
+    "aria-label": `Transaction amount ${children.includes('-') ? 'debit' : 'credit'} ${children}`
+  }))`
   font-size: 1rem;
   font-weight: 400;
   margin: 0;

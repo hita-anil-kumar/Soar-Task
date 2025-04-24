@@ -1,10 +1,9 @@
-import React, { useState, Suspense} from "react";
+import React, { useState, Suspense } from "react";
 import styled from "styled-components";
-//lazy load
+
+// lazy load
 const Header = React.lazy(() => import("../components/Header"));
 const Sidebar = React.lazy(() => import("../components/Sidebar"));
-
-
 
 const Layout = styled.div`
   display: flex;
@@ -53,19 +52,19 @@ const Transactions = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <Layout>
-      <SidebarWrapper>
+    <Layout role="main">
+      <SidebarWrapper aria-label="Sidebar navigation">
         <Suspense fallback={<div>Loading...</div>}>
-              <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
-              </Suspense>
+          <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+        </Suspense>
       </SidebarWrapper>
       <Content>
         <Suspense fallback={<div>Loading...</div>}>
-              <Header title="Setting" onMenuClick={() => setSidebarOpen(true)} />
-              </Suspense>
+          <Header title="Setting" onMenuClick={() => setSidebarOpen(true)} />
+        </Suspense>
         <Container>
-          <Card>
-           <h2>Coming Soon ....</h2>
+          <Card role="region" aria-labelledby="transactions-title">
+            <h2 id="transactions-title">Coming Soon ....</h2>
           </Card>
         </Container>
       </Content>

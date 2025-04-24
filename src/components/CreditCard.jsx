@@ -132,34 +132,34 @@ const StyledChipLight = styled(ChipLight)`
 
 const CreditCard = ({ variant = "light", name, expiry, number, balance }) => {
   return (
-    <CardContainer variant={variant}>
+    <CardContainer variant={variant} role="group" aria-label={`Credit card belonging to ${name}, ending in ${number.slice(-4)}`}>
     <TopRow>
-    <BalanceGroup>
-      <Label variant={variant}>Balance</Label>
-      <Balance>{balance}</Balance>
-    </BalanceGroup>
-    {variant === "dark" ? <StyledChipLight /> : <StyledChipDark />}
-  </TopRow>
+      <BalanceGroup>
+        <Label variant={variant} aria-hidden="true">Balance</Label>
+        <Balance aria-label={`Card balance ${balance}`}>{balance}</Balance>
+      </BalanceGroup>
+      {variant === "dark" ? <StyledChipLight aria-hidden="true" /> : <StyledChipDark aria-hidden="true" />}
+    </TopRow>
   
+    <DetailsRow>
+      <div>
+        <NameLabel variant={variant} aria-hidden="true">Card Holder</NameLabel>
+        <Name aria-label={`Card holder name ${name}`}>{name}</Name>
+      </div>
+      <div>
+        <NameLabel variant={variant} aria-hidden="true">Valid Thru</NameLabel>
+        <Name aria-label={`Card expiry date ${expiry}`}>{expiry}</Name>
+      </div>
+    </DetailsRow>
   
-      <DetailsRow>
-        <div>
-          <NameLabel variant={variant}>CARD HOLDER</NameLabel>
-          <Name>{name}</Name>
-        </div>
-        <div>
-          <NameLabel variant={variant}>VALID THRU</NameLabel>
-          <Name>{expiry}</Name>
-        </div>
-      </DetailsRow>
-
-      <NumberRow variant={variant}>
-        <CardNumber>{number}</CardNumber>
-        <Toggle>
+    <NumberRow variant={variant}>
+      <CardNumber aria-label={`Card number ending in ${number.slice(-4)}`}>{number}</CardNumber>
+      <Toggle aria-hidden="true">
         {variant === "dark" ? <MastercardDark /> : <MastercardLight />}
       </Toggle>
-      </NumberRow>
-    </CardContainer>
+    </NumberRow>
+  </CardContainer>
+  
   );
 };
 

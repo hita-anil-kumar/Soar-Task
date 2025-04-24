@@ -20,11 +20,13 @@ const CardList = ({ limit }) => {
     fetchCards().then(setCards);
   }, []);
 
-
   const visibleCards = limit ? cards.slice(0, limit) : cards;
 
   return (
-    <CardsWrapper>
+    <CardsWrapper
+      role="region"
+      aria-label="List of credit cards"
+    >
       {visibleCards.map((card) => (
         <CreditCard
           key={card.id}

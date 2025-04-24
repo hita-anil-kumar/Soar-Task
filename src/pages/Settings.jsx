@@ -204,8 +204,6 @@ const SaveButton = styled.button`
   }
 `;
 
-
-
 const DatePickerInput = styled(DatePicker)`
   width: 100%;
   padding: 0.8rem 2.5rem 0.8rem 1rem;
@@ -266,112 +264,149 @@ const Settings = () => {
     alert("Changes saved successfully!");
   };
 
-  return (
-    <Layout>
-      <SidebarWrapper>
 
-      <Suspense fallback={<div>Loading...</div>}>
-      <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
-      </Suspense>
-       
-      </SidebarWrapper>
-      <Content>
-      <Suspense fallback={<div>Loading...</div>}>
-      <Header title="Setting" onMenuClick={() => setSidebarOpen(true)} />
-      </Suspense>
-
-        
-        <Container>
-          <Card>
-            <Tabs>
-              <Tab active={activeTab === "profile"} onClick={() => setActiveTab("profile")}>Edit Profile</Tab>
-              <Tab active={activeTab === "preferences"} onClick={() => setActiveTab("preferences")}>Preferences</Tab>
-              <Tab active={activeTab === "security"} onClick={() => setActiveTab("security")}>Security</Tab>
-            </Tabs>
-
-            {activeTab === "profile" && (
-              <>
-                <FormLayout>
-                <ProfileSection>
-                <AvatarWrapper>
-                  <Avatar src={formData.profileImage || "https://i.pravatar.cc/100"} alt="User" />
-                  <UploadInput
-                    type="file"
-                    id="avatarUpload"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    ref={fileInputRef}
-                  />
-                  <EditButton htmlFor="avatarUpload">
-                    <EditIcon />
-                  </EditButton>
-                </AvatarWrapper>
-              </ProfileSection>
-
-                  <FormGrid>
-                    <Field>
-                      <Label>Your Name</Label>
-                      <Input name="name" placeholder="Charlene Reed" value={formData.name} onChange={handleChange} />
-                    </Field>
-                    <Field>
-                      <Label>User Name</Label>
-                      <Input name="username" placeholder="Charlene Reed" value={formData.username} onChange={handleChange} />
-                    </Field>
-                    <Field>
-                      <Label>Email</Label>
-                      <Input name="email" type="email" placeholder="charlenereed@gmail.com" value={formData.email} onChange={handleChange} />
-                    </Field>
-                    <Field>
-                      <Label>Password</Label>
-                      <Input name="password" type="password" placeholder="**********" value={formData.password} onChange={handleChange} />
-                    </Field>
-                    <Field>
-  <Label>Date of Birth</Label>
-  <DatePickerInput
-    selected={formData.dob ? new Date(formData.dob) : null}
-    onChange={(date) => setFormData({ ...formData, dob: date })}
-    placeholderText="25 January 1990"
-    dateFormat="dd MMMM yyyy"
-    showPopperArrow={false}
-  />
-</Field>
-                    <Field>
-                      <Label>Present Address</Label>
-                      <Input name="present" placeholder="San Jose, California, USA" value={formData.present} onChange={handleChange} />
-                    </Field>
-                    <Field>
-                      <Label>Permanent Address</Label>
-                      <Input name="permanent" placeholder="San Jose, California, USA" value={formData.permanent} onChange={handleChange} />
-                    </Field>
-                    <Field>
-                      <Label>City</Label>
-                      <Input name="city" placeholder="San Jose" value={formData.city} onChange={handleChange} />
-                    </Field>
-                    <Field>
-                      <Label>Postal Code</Label>
-                      <Input name="postal" placeholder="45962" value={formData.postal} onChange={handleChange} />
-                    </Field>
-                    <Field>
-                      <Label>Country</Label>
-                      <Input name="country" placeholder="USA" value={formData.country} onChange={handleChange} />
-                    </Field>
-                  </FormGrid>
-                </FormLayout>
-
-                <SaveWrapper>
-                  <SaveButton onClick={handleSave}>Save</SaveButton>
-                </SaveWrapper>
-              </>
-            )}
-
-            {activeTab !== "profile" && (
-              <p style={{ textAlign: "center", padding: "2rem" }}>Coming soon...</p>
-            )}
-          </Card>
-        </Container>
-      </Content>
-    </Layout>
-  );
+    return (
+        <Layout role="application" aria-label="Settings Page">
+          <SidebarWrapper as="nav" aria-label="Sidebar Navigation">
+            <Suspense fallback={<div role="status" aria-live="polite">Loading sidebar...</div>}>
+              <Sidebar open={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+            </Suspense>
+          </SidebarWrapper>
+      
+          <Content as="main" aria-label="Main Content Area">
+            <Suspense fallback={<div role="status" aria-live="polite">Loading header...</div>}>
+              <Header title="Settings" onMenuClick={() => setSidebarOpen(true)} />
+            </Suspense>
+      
+            <Container>
+              <Card role="form" aria-labelledby="settings-form-heading">
+                <Tabs role="tablist" aria-label="Settings Tabs">
+                  <Tab
+                    role="tab"
+                    id="profile-tab"
+                    aria-selected={activeTab === "profile"}
+                    aria-controls="profile-panel"
+                    tabIndex={activeTab === "profile" ? 0 : -1}
+                    active={activeTab === "profile"}
+                    onClick={() => setActiveTab("profile")}
+                  >
+                    Edit Profile
+                  </Tab>
+                  <Tab
+                    role="tab"
+                    id="preferences-tab"
+                    aria-selected={activeTab === "preferences"}
+                    aria-controls="preferences-panel"
+                    tabIndex={activeTab === "preferences" ? 0 : -1}
+                    active={activeTab === "preferences"}
+                    onClick={() => setActiveTab("preferences")}
+                  >
+                    Preferences
+                  </Tab>
+                  <Tab
+                    role="tab"
+                    id="security-tab"
+                    aria-selected={activeTab === "security"}
+                    aria-controls="security-panel"
+                    tabIndex={activeTab === "security" ? 0 : -1}
+                    active={activeTab === "security"}
+                    onClick={() => setActiveTab("security")}
+                  >
+                    Security
+                  </Tab>
+                </Tabs>
+      
+                {activeTab === "profile" && (
+                  <section id="profile-panel" role="tabpanel" aria-labelledby="profile-tab">
+                    <FormLayout>
+                      <ProfileSection>
+                        <AvatarWrapper>
+                          <Avatar
+                            src={formData.profileImage || "https://i.pravatar.cc/100"}
+                            alt="User profile avatar"
+                          />
+                          <UploadInput
+                            type="file"
+                            id="avatarUpload"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            ref={fileInputRef}
+                            aria-label="Upload profile picture"
+                          />
+                          <EditButton htmlFor="avatarUpload" aria-label="Edit profile image">
+                            <EditIcon />
+                          </EditButton>
+                        </AvatarWrapper>
+                      </ProfileSection>
+      
+                      <FormGrid>
+                        {[
+                          { label: "Your Name", name: "name", placeholder: "Charlene Reed" },
+                          { label: "User Name", name: "username", placeholder: "Charlene Reed" },
+                          { label: "Email", name: "email", placeholder: "charlenereed@gmail.com", type: "email" },
+                          { label: "Password", name: "password", placeholder: "**********", type: "password" },
+                          { label: "Present Address", name: "present", placeholder: "San Jose, California, USA" },
+                          { label: "Permanent Address", name: "permanent", placeholder: "San Jose, California, USA" },
+                          { label: "City", name: "city", placeholder: "San Jose" },
+                          { label: "Postal Code", name: "postal", placeholder: "45962" },
+                          { label: "Country", name: "country", placeholder: "USA" },
+                        ].map((field, index) => (
+                          <Field key={index}>
+                            <Label htmlFor={field.name}>{field.label}</Label>
+                            <Input
+                              id={field.name}
+                              name={field.name}
+                              type={field.type || "text"}
+                              placeholder={field.placeholder}
+                              value={formData[field.name] || ""}
+                              onChange={handleChange}
+                              aria-required="true"
+                            />
+                          </Field>
+                        ))}
+      
+                        <Field>
+                          <Label htmlFor="dob">Date of Birth</Label>
+                          <DatePickerInput
+                            id="dob"
+                            selected={formData.dob ? new Date(formData.dob) : null}
+                            onChange={(date) => setFormData({ ...formData, dob: date })}
+                            placeholderText="25 January 1990"
+                            dateFormat="dd MMMM yyyy"
+                            showPopperArrow={false}
+                            aria-label="Date of birth"
+                          />
+                        </Field>
+                      </FormGrid>
+                    </FormLayout>
+      
+                    <SaveWrapper>
+                      <SaveButton
+                        onClick={handleSave}
+                        aria-label="Save Profile Changes"
+                        type="submit"
+                      >
+                        Save
+                      </SaveButton>
+                    </SaveWrapper>
+                  </section>
+                )}
+      
+                {activeTab !== "profile" && (
+                  <section
+                    id={`${activeTab}-panel`}
+                    role="tabpanel"
+                    aria-labelledby={`${activeTab}-tab`}
+                    style={{ textAlign: "center", padding: "2rem" }}
+                  >
+                    Coming soon...
+                  </section>
+                )}
+              </Card>
+            </Container>
+          </Content>
+        </Layout>
+      );
 };
 
 export default Settings;

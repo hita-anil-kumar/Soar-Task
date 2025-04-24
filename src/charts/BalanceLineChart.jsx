@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -21,14 +21,12 @@ ChartJS.register(
   Filler
 );
 
-
 const ChartCard = styled.div`
   background: #ffffff;
   border-radius: 24px;
   padding: 1.5rem 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   width: 100%;
-
   height: 280px;
   display: flex;
   flex-direction: column;
@@ -51,6 +49,7 @@ const ChartWrapper = styled.div`
     padding: 1rem;
     max-width: 25rem;
   }
+
   canvas {
     width: 100%;
     height: auto;
@@ -67,8 +66,6 @@ const BalanceLineChart = () => {
     });
   }, []);
 
-
-
   let gradient = null;
 
   if (chartRef.current) {
@@ -77,7 +74,7 @@ const BalanceLineChart = () => {
     gradient.addColorStop(0, "rgba(45, 96, 255, 0.5)");
     gradient.addColorStop(1, "rgba(45, 96, 255, 0)");
   }
-  
+
   const data = {
     labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"],
     datasets: [
@@ -90,7 +87,6 @@ const BalanceLineChart = () => {
         borderColor: "#1814F3",
         pointRadius: 0,
         borderWidth: 2,
-
       },
     ],
   };
@@ -128,21 +124,23 @@ const BalanceLineChart = () => {
           color: "#DCE6F9",
         },
         min: 0,
-          max: 800,
+        max: 800,
         ticks: {
           color: "#718EBF",
           font: { size: 12 },
           stepSize: 200,
-          
         },
       },
     },
   };
 
   return (
-    <ChartCard>
+    <ChartCard role="region" aria-labelledby="balance-chart-title">
+      <h3 id="balance-chart-title" style={{ fontSize: "1rem", marginBottom: "1rem", color: "#343c6a" }}>
+        Balance History Chart
+      </h3>
       <ChartWrapper>
-      <canvas ref={chartRef} style={{ display: "none" }} />
+        <canvas ref={chartRef} style={{ display: "none" }} aria-hidden="true" />
         <Line data={data} options={options} />
       </ChartWrapper>
     </ChartCard>
